@@ -75,6 +75,13 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 .tbl tbody tr{cursor:pointer;transition:background .2s}.tbl tbody tr:hover{background:var(--pink-soft)}
 .tbl tr.pilih{background:var(--navy-soft);box-shadow:inset 4px 0 0 var(--pink)}
 .tbl-ket{font-size:12.5px;color:var(--muted);margin-top:8px}
+.daftar{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.daftar summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:14px}
+.daftar-isi{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;margin-top:10px}
+.daftar h3{margin:0 0 6px;font-size:13.5px;color:var(--navy)}
+.tbl.kecil{min-width:0;font-size:12.5px}.tbl.kecil td,.tbl.kecil th{padding:6px 8px}.tbl.kecil tbody tr{cursor:default}
+.tbl tr.redup td{color:var(--muted);text-decoration:line-through}
+@media (max-width:980px){.daftar-isi{grid-template-columns:minmax(0,1fr)}}
 .ubin{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .u{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;border-top:4px solid var(--navy-line)}
 .u .l{font-size:12.5px;color:var(--muted);font-weight:600}
@@ -237,6 +244,9 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 (function(){
 "use strict";
 var D=null, KUNCI="simYEH.v1";
+/* Tempel URL Web App Apps Script di antara tanda kutip di bawah ini. */
+var API_URL="";
+var ROSTER=null, PESAN_SHEET=API_URL?"Memuat daftar dari Sheet…":"Daftar dosen dan mahasiswa belum tersambung ke Sheet.";
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
@@ -276,7 +286,33 @@ document.addEventListener("keydown",function(e){
 $("tirai").addEventListener("click",tutupPs); $("laciT").addEventListener("click",tutupPs);
 function ukurAtas(){ var a=document.querySelector(".atas"); if(a&&a.offsetHeight) document.documentElement.style.setProperty("--tinggi-atas",a.offsetHeight+"px"); }
 window.addEventListener("resize",ukurAtas);
-function mulai(d){ setTimeout(ukurAtas,0);
+function muatDaftar(){
+  if(!API_URL) return; var a; try{a=JSON.parse(ss(KUNCI)||"null");}catch(e){} if(!a) return;
+  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nama:a[0],sandi:a[1]})})
+  .then(function(r){return r.json();}).then(function(j){
+    if(j&&j.ok&&j.data){ ROSTER=j.data; } else { PESAN_SHEET="Gagal membaca Sheet: "+((j&&j.message)||"tanpa keterangan"); }
+    if(D&&posisi>=0) tampil(riwayat[posisi]);
+  }).catch(function(){ PESAN_SHEET="Sheet tidak dapat dihubungi. Angka di tabel memakai data terakhir yang tersimpan."; if(D&&posisi>=0) tampil(riwayat[posisi]); });
+}
+function taKini(){ var d=new Date(); return d.getMonth()>=7?d.getFullYear():d.getFullYear()-1; }
+function aktif(x){ return String(x.status||"").toLowerCase()==="aktif"; }
+function milik(x,P){ return String(x.prodi||"").toLowerCase()===P.id; }
+function hitung(P){
+  if(!ROSTER) return null; var r={tk:{},total:0,dosen:0,ganti:0};
+  (ROSTER.mahasiswa||[]).forEach(function(m){ if(milik(m,P)&&aktif(m)){ var k=taKini()-(+m.angkatan)+1; if(k>0){r.tk[k]=(r.tk[k]||0)+1; r.total++;} } });
+  (ROSTER.dosen||[]).forEach(function(d){ if(milik(d,P)&&aktif(d)&&/tetap/i.test(d["ikatan kerja"])&&!/tidak/i.test(d["ikatan kerja"])){ r.dosen++; if(d.keterangan) r.ganti++; } });
+  return r;
+}
+function nTk(){ var m=2; if(ROSTER) D.prodi.forEach(function(P){var r=hitung(P);Object.keys(r.tk).forEach(function(k){m=Math.max(m,+k);});}); var a=[];for(var i=1;i<=m;i++)a.push(i);return a; }
+function daftar(P){
+  if(!ROSTER) return '<div class="tbl-ket">'+esc(PESAN_SHEET)+'</div>';
+  var mh=(ROSTER.mahasiswa||[]).filter(function(x){return milik(x,P);}), ds=(ROSTER.dosen||[]).filter(function(x){return milik(x,P);});
+  var tb=function(kol,baris){return '<table class="tbl kecil"><thead><tr><th>No</th>'+kol.map(function(k){return '<th>'+esc(k[0])+'</th>';}).join("")+'</tr></thead><tbody>'+(baris.length?baris.map(function(b,i){return '<tr'+(aktif(b)?'':' class="redup"')+'><td class="a">'+(i+1)+'</td>'+kol.map(function(k){return '<td>'+esc(b[k[1]]||"")+'</td>';}).join("")+'</tr>';}).join(""):'<tr><td colspan="'+(kol.length+1)+'">Belum ada data.</td></tr>')+'</tbody></table>';};
+  return '<details class="daftar"><summary>Lihat daftar '+esc(P.nama)+': '+ds.length+' dosen, '+mh.length+' mahasiswa</summary><div class="daftar-isi">'+
+    '<div><h3>Dosen</h3><div class="tbl-w">'+tb([["Nama","nama"],["NUPTK","nuptk"],["NIDN","nidn"],["Ikatan kerja","ikatan kerja"],["Keterangan","keterangan"]],ds)+'</div></div>'+
+    '<div><h3>Mahasiswa</h3><div class="tbl-w">'+tb([["Nama","nama"],["NIM","nim"],["Angkatan","angkatan"],["Status","status"]],mh)+'</div></div></div></details>';
+}
+function mulai(d){ setTimeout(ukurAtas,0); ROSTER=null; setTimeout(muatDaftar,0);
   D=d; $("layarMasuk").hidden=true; $("app").hidden=false;
   $("judulApp").innerHTML=esc(d.judul)+"<small>Pembaruan data "+esc(d.pembaruan)+"</small>";
   riwayat=[]; posisi=-1;
@@ -323,10 +359,13 @@ function tampil(st){
     P.skenario.map(function(s){return '<option value="'+s.id+'"'+(s.id===st.s?' selected':'')+'>Skenario: '+esc(s.judul)+'</option>';}).join("")+
     '</select></div></div>';
 
-  h+='<h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th><th>Mhs Tk I<br><small>2026</small></th><th>Mhs Tk II<br><small>2025</small></th><th>Total</th><th>Dosen tetap<br><small>min. 5</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
-    D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x);
-      return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td><td class="a">'+esc(t.tk1)+'</td><td class="a">'+esc(t.tk2)+'</td><td class="a"><b>'+esc(t.total)+'</b></td><td class="a"><b>'+esc(t.dosen)+'</b><small>'+esc(t.dosenKet)+'</small></td><td>'+esc(t.akreditasi)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
-    '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc(D.catatanUmum)+' ':'')+'* KWU: 1 dosen tercatat dalam penggantian. Klik baris untuk memilih prodi.</div>';
+  var TK=nTk();
+  h+='<h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th>'+TK.map(function(k){return '<th>Mhs Tk '+["I","II","III","IV","V","VI","VII"][k-1]+'<br><small>'+(taKini()-k+1)+'</small></th>';}).join("")+'<th>Total</th><th>Dosen tetap<br><small>min. 5</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
+    D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x),r=hitung(x);
+      return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td>'+TK.map(function(k){return '<td class="a">'+(r?(r.tk[k]||"–"):esc(k===1?t.tk1:k===2?t.tk2:"–"))+'</td>';}).join("")+
+        '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<5?'kurang '+(5-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+esc(t.akreditasi)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
+    '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc(D.catatanUmum)+' ':'')+'* Ada dosen tercatat yang dalam penggantian. Klik baris untuk memilih prodi.</div>';
+  h+=daftar(P);
 
   if(P.catatan&&P.catatan.length){
     h+='<h2>Yang perlu diperhatikan</h2><div class="catatan">'+P.catatan.map(function(c){
@@ -382,7 +421,7 @@ function skenario(S){
 function dampak(P){
   var h='<h2>Dampak bila prodi ditutup</h2><p class="sub">Tanpa angka rupiah. Besaran mengikuti data keuangan dan kepegawaian masing-masing.</p><div class="dampak">';
   D.dampak.forEach(function(d){
-    var j=d.hitung?P.dampak[d.hitung]:null;
+    var rh=hitung(P), j=d.hitung?(rh?(d.hitung==="mahasiswa"?rh.total:rh.dosen):P.dampak[d.hitung]):null;
     var li=function(x){return '<li>'+esc(x.t)+' '+(x.jenis==="aturan"&&x.dasar?rujuk(x.dasar,'tg aturan'):'<span class="tg '+x.jenis+'">'+(x.jenis==="aturan"?"Dasar aturan":"Tafsiran")+'</span>')+'</li>';};
     h+='<div class="dp"><div class="dp-kepala"><h3>'+esc(d.judul)+'</h3>'+(j?'<span class="jml">'+esc(j)+'<small>'+esc(d.satuan)+'</small></span>':'')+'</div>'+
       '<h4>Kewajiban</h4><ul>'+d.kewajiban.map(li).join("")+'</ul><h4>Jenis biaya</h4><ul>'+d.biaya.map(li).join("")+'</ul></div>';
