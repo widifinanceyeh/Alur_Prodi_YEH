@@ -199,7 +199,7 @@ window.ISI = {
           ],
           ulang: "Akreditasi ulang setiap masa berlaku habis",
           cabang: {
-            judul: "Selama prodi berjalan, prodi dapat ditutup karena empat penyebab",
+            judul: "Prodi dapat ditutup melalui dua jalur: langsung (3 penyebab) dan bertahap (1 penyebab)",
             item: [
               { judul: "Ditutup langsung", ket: "Kebijakan pemerintah berubah, prodi tidak terakreditasi, atau tidak mengajukan akreditasi", pasal: ["P7-27-1", "P39-77-7"], ke: "penyebab", tingkat: "berat" },
               { judul: "Ditutup bertahap", ket: "Pelanggaran tidak diperbaiki setelah ditegur, sampai sanksi berat", pasal: ["P7-72-3"], ke: "penyebab", tingkat: "cabut" }
