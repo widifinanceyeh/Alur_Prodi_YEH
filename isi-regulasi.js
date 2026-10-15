@@ -142,6 +142,37 @@ window.ISI = {
     "P39-114": { reg: "P39", label: "Pasal 114 ayat (1) huruf c dan ayat (2)", status: "kutipan",
       bunyi: "(1) Pada saat Peraturan Menteri ini mulai berlaku: ... c. perguruan tinggi dan/atau program studi yang tidak terakreditasi dan/atau belum mengajukan permohonan Akreditasi wajib mengajukan permohonan Akreditasi sesuai dengan peraturan Menteri ini paling lambat 1 (satu) tahun sejak Peraturan Menteri ini diundangkan. (2) Perguruan tinggi yang tidak mengajukan permohonan Akreditasi kepada BAN-PT atau LAM sebagaimana dimaksud pada ayat (1) huruf c dicabut izin penyelenggaraan perguruan tinggi atau program studinya oleh Menteri." },
 
+    "UU12-18-3": { reg: "UU12", label: "Pasal 18 ayat (3)", status: "kutipan",
+      bunyi: "Program sarjana wajib memiliki Dosen yang berkualifikasi akademik minimum lulusan program magister atau sederajat." },
+    "UU12-19-3": { reg: "UU12", label: "Pasal 19 ayat (3)", status: "kutipan",
+      bunyi: "Program magister wajib memiliki Dosen yang berkualifikasi akademik lulusan program doktor atau yang sederajat." },
+    "UU12-21-4": { reg: "UU12", label: "Pasal 21 ayat (4)", status: "kutipan",
+      bunyi: "Program diploma sebagaimana dimaksud pada ayat (3) wajib memiliki Dosen yang berkualifikasi akademik minimum lulusan program magister atau sederajat." },
+    "UU12-35-3": { reg: "UU12", label: "Pasal 35 ayat (3)", status: "kutipan",
+      bunyi: "Kurikulum Pendidikan Tinggi sebagaimana dimaksud pada ayat (1) wajib memuat mata kuliah: a. agama; b. Pancasila; c. kewarganegaraan; dan d. bahasa Indonesia." },
+    "P7-40-1": { reg: "P7", label: "Pasal 40 ayat (1)", status: "kutipan",
+      bunyi: "Beban kerja Dosen paling banyak 1,5 (satu koma lima) EWMP yaitu 56,25 (lima puluh enam koma dua puluh lima) jam per minggu." },
+    "P7-41": { reg: "P7", label: "Pasal 41", status: "kutipan",
+      bunyi: "Untuk memenuhi kecukupan Dosen, perguruan tinggi menggunakan Dosen yang bekerja: a. penuh waktu paling sedikit 60% (enam puluh persen) dari total EWMP; dan b. paruh waktu paling banyak 40% (empat puluh persen) dari total EWMP." },
+    "P39-17": { reg: "P39", label: "Pasal 17 ayat (1) huruf c dan ayat (4)", status: "kutipan",
+      bunyi: "(1) Beban belajar dan Masa Tempuh Kurikulum pada: ... c. program diploma tiga, paling sedikit 108 (seratus delapan) satuan kredit semester yang dirancang selama 6 (enam) semester. (4) Mahasiswa pada program diploma satu, diploma dua, dan diploma tiga wajib melaksanakan kegiatan magang di dunia usaha, dunia industri, dan dunia kerja yang relevan." },
+    "P39-18-1": { reg: "P39", label: "Pasal 18 ayat (1)", status: "kutipan",
+      bunyi: "Beban belajar dan Masa Tempuh Kurikulum pada program sarjana atau sarjana terapan paling sedikit 144 (seratus empat puluh empat) satuan kredit semester yang dirancang selama 8 (delapan) semester." },
+    "P39-22": { reg: "P39", label: "Pasal 22", status: "kutipan",
+      bunyi: "Beban belajar dan Masa Tempuh Kurikulum pada program profesi, spesialis, atau subspesialis disusun dan ditetapkan oleh perguruan tinggi bersama organisasi profesi, kementerian lain, dan/atau lembaga pemerintah nonkementerian yang bertanggung jawab atas mutu layanan profesi sesuai dengan ketentuan peraturan perundang-undangan." },
+    "P39-23-2": { reg: "P39", label: "Pasal 23 ayat (2)", status: "kutipan",
+      bunyi: "Masa Studi sebagaimana dimaksud pada ayat (1) tidak melebihi 2 (dua) kali Masa Tempuh Kurikulum bagi mahasiswa penuh waktu." },
+    "P39-28-7": { reg: "P39", label: "Pasal 28 ayat (7)", status: "kutipan",
+      bunyi: "Hasil penilaian sumatif dilaporkan perguruan tinggi ke PD Dikti." },
+    "P39-30": { reg: "P39", label: "Pasal 30 ayat (1)–(2)", status: "kutipan",
+      bunyi: "(1) Mahasiswa program diploma dan program sarjana atau sarjana terapan dinyatakan lulus jika telah menempuh seluruh beban belajar yang ditetapkan dan memiliki capaian pembelajaran lulusan yang ditargetkan oleh program studi dengan Indeks Prestasi Kumulatif lebih besar atau sama dengan 2,0 (dua koma nol). (2) Mahasiswa program profesi, program magister, program magister terapan, program spesialis, program doktor, program doktor terapan, dan program subspesialis, dinyatakan lulus jika telah menempuh seluruh beban belajar yang ditetapkan dan memiliki capaian pembelajaran lulusan yang ditargetkan oleh program studi dengan Indeks Prestasi Kumulatif lebih besar atau sama dengan 3,0 (tiga koma nol)." },
+    "P39-44-1": { reg: "P39", label: "Pasal 44 ayat (1)", status: "kutipan",
+      bunyi: "Kurikulum program studi minimal mencakup: a. capaian pembelajaran lulusan; b. Masa Tempuh Kurikulum; c. metode pembelajaran; d. modalitas pembelajaran; e. syarat kompetensi dan/atau kualifikasi calon mahasiswa; f. penilaian hasil belajar; g. materi pembelajaran yang harus ditempuh; dan h. tata cara penerimaan mahasiswa pada berbagai tahapan kurikulum." },
+    "P39-67-1": { reg: "P39", label: "Pasal 67 ayat (1)", status: "kutipan",
+      bunyi: "Perguruan tinggi wajib melaksanakan penjaminan mutu internal dengan mengembangkan SPMI." },
+    "P39-116": { reg: "P39", label: "Pasal 116 huruf a", status: "kutipan",
+      bunyi: "Pada saat Peraturan Menteri ini mulai berlaku: a. pengelolaan dan penyelenggaraan perguruan tinggi wajib menyesuaikan dengan Peraturan Menteri ini paling lama 2 (dua) tahun sejak Peraturan Menteri ini diundangkan;" },
+
     "P10-76": { reg: "P10", label: "Perubahan Pasal 76", status: "ringkasan",
       bunyi: "Status terakreditasi pertama diperoleh pada saat mendapat izin yang diperoleh sesuai ketentuan peraturan perundang-undangan (sebelumnya: izin penyelenggaraan atau pendirian dari Menteri)." },
     "P10-77-1": { reg: "P10", label: "Perubahan Pasal 77 ayat (1)", status: "ringkasan",
@@ -152,11 +183,11 @@ window.ISI = {
 
   /* ---------- HALAMAN ----------
      menu = label singkat di sidebar (opsional)
-     tipe blok: peta | kartu | langkah | jalur | tangga | info | regulasi
+     tipe blok: peta | kartu | langkah | jalur | tangga | ceklis | info | regulasi
      tingkat warna: normal | aksen | ringan | sedang | berat | cabut   */
   halaman: [
 
-    { id: "peta", menu: "Peta hidup prodi", judul: "Peta hidup program studi", ikon: "peta",
+    { id: "peta", menu: "Peta prodi", judul: "Peta hidup program studi", ikon: "peta",
       sub: "Dari izin dibuka sampai dua kemungkinan berakhirnya prodi",
       blok: [
         { tipe: "peta",
@@ -170,8 +201,8 @@ window.ISI = {
           cabang: {
             judul: "Selama prodi berjalan, dua hal ini dapat mengakhirinya",
             item: [
-              { judul: "Penutupan prodi", ket: "Ditetapkan Menteri karena perubahan kebijakan atau sanksi berat", pasal: ["P7-27-1", "P7-27-2"], ke: "penutupan", tingkat: "berat" },
-              { judul: "Pencabutan izin prodi", ket: "Karena tidak terakreditasi, tidak diakreditasi ulang, atau sanksi berat", pasal: ["P39-77-7", "UU12-33-7", "P7-72-3"], ke: "penutupan", tingkat: "cabut" }
+              { judul: "Pencabutan izin karena akreditasi", ket: "Tidak terakreditasi atau tidak diakreditasi ulang", pasal: ["P39-77-7", "UU12-33-7"], ke: "akreditasi", tingkat: "berat" },
+              { judul: "Pencabutan izin karena sanksi", ket: "Pelanggaran tidak diperbaiki sampai sanksi berat", pasal: ["P7-72-3", "P7-27-1"], ke: "sanksi", tingkat: "cabut" }
             ]
           }
         },
@@ -185,7 +216,7 @@ window.ISI = {
       ]
     },
 
-    { id: "pembukaan", menu: "Membuka prodi", judul: "Membuka program studi", ikon: "buka",
+    { id: "pembukaan", menu: "Buka prodi", judul: "Membuka program studi", ikon: "buka",
       sub: "Tahapan sampai izin Menteri terbit",
       blok: [
         { tipe: "langkah",
@@ -199,39 +230,99 @@ window.ISI = {
             { judul: "Izin Menteri terbit", isi: "Prodi diselenggarakan atas izin Menteri dan saat itu juga memperoleh status terakreditasi pertama.",
               pasal: ["UU12-33-3", "UU12-33-5", "P39-76", "P10-76"], tingkat: "aksen" }
           ],
-          akhir: { judul: "Sesudah izin terbit", isi: "Kewajiban akreditasi mulai berjalan. Lihat halaman Pemicu penutupan.", ke: "penutupan" }
+          akhir: { judul: "Sesudah izin terbit", isi: "Prodi wajib memenuhi syarat dan mengajukan akreditasi.", ke: "ceklis" }
         }
       ]
     },
 
-    { id: "penutupan", menu: "Pemicu penutupan", judul: "Pemicu penutupan program studi", ikon: "peringatan",
-      sub: "Dua jalur resmi yang dapat berujung pada berakhirnya prodi",
+    { id: "ceklis", menu: "Ceklis syarat", judul: "Ceklis syarat wajib program studi", ikon: "ceklis",
+      sub: "Yang harus dipenuhi agar prodi tidak dinilai tidak memenuhi SN Dikti atau dikenai sanksi",
+      blok: [
+        { tipe: "ceklis", judul: "Batas waktu pemenuhan",
+          batas: [
+            { tanggal: "2027-09-02", judul: "Penyesuaian ke SN Dikti baru", ket: "Pengelolaan seluruh perguruan tinggi wajib sudah sesuai Permen 39/2025 pada 2 September 2027", pasal: ["P39-116"] },
+            { angka: "6 bulan", judul: "Sejak teguran tertulis", ket: "Bila dikenai sanksi, pelanggaran wajib dihentikan dalam 6 bulan per tingkat", pasal: ["P7-74", "P7-75", "P7-76"] },
+            { angka: "5 tahun", judul: "Masa berlaku akreditasi", ket: "Prodi wajib diakreditasi ulang saat masa berlakunya habis", pasal: ["P39-77-3", "UU12-33-6"] }
+          ]
+        },
+        { tipe: "ceklis", judul: "Syarat yang wajib dipenuhi",
+          kelompok: [
+            { judul: "Dosen", ikon: "dosen", item: [
+              { syarat: "Dosen tetap paling sedikit 5 orang untuk setiap prodi", angka: "≥ 5 orang", pasal: ["P7-69-1"], sanksi: "ringan" },
+              { syarat: "Dosen program sarjana dan diploma minimal lulusan magister", angka: "≥ S2", pasal: ["UU12-18-3", "UU12-21-4"] },
+              { syarat: "Dosen program magister lulusan doktor", angka: "S3", pasal: ["UU12-19-3"] },
+              { syarat: "Dosen penuh waktu paling sedikit 60% dari total beban kerja dosen (EWMP)", angka: "≥ 60%", pasal: ["P7-41"] },
+              { syarat: "Beban kerja dosen paling banyak 1,5 EWMP", angka: "≤ 56,25 jam/minggu", pasal: ["P7-40-1"] },
+              { syarat: "Nisbah dosen dan mahasiswa terpenuhi", pasal: ["P7-69-1"], sanksi: "ringan", menyusul: "Angka nisbah mengikuti ketentuan tersendiri, sumber belum dimuat." }
+            ]},
+            { judul: "Kurikulum", ikon: "kurikulum", item: [
+              { syarat: "Memuat mata kuliah agama, Pancasila, kewarganegaraan, dan bahasa Indonesia", angka: "4 mata kuliah", pasal: ["UU12-35-3", "P7-69-1"], sanksi: "ringan" },
+              { syarat: "Kurikulum minimal memuat capaian pembelajaran lulusan, masa tempuh, metode, penilaian, dan materi", pasal: ["P39-44-1"] },
+              { syarat: "Beban belajar program sarjana", angka: "≥ 144 sks", pasal: ["P39-18-1"] },
+              { syarat: "Beban belajar program diploma tiga, dengan magang wajib", angka: "≥ 108 sks", pasal: ["P39-17"] },
+              { syarat: "Beban belajar program profesi ditetapkan bersama organisasi profesi", pasal: ["P39-22"] },
+              { syarat: "Bahasa Indonesia sebagai bahasa pengantar utama", pasal: ["P7-69-1"], sanksi: "ringan" }
+            ]},
+            { judul: "Kelulusan", ikon: "kelulusan", item: [
+              { syarat: "IPK lulus program diploma dan sarjana", angka: "≥ 2,00", pasal: ["P39-30"] },
+              { syarat: "IPK lulus program profesi dan magister", angka: "≥ 3,00", pasal: ["P39-30"] },
+              { syarat: "Masa studi mahasiswa penuh waktu tidak melebihi 2 kali masa tempuh kurikulum", angka: "≤ 2×", pasal: ["P39-23-2"] },
+              { syarat: "Ijazah hanya diterbitkan saat prodi berstatus terakreditasi", pasal: ["P39-70-4", "UU12-28-3"], sanksi: "berat", sanksiTeks: "Bila dilanggar: langsung sanksi berat" }
+            ]},
+            { judul: "Pengelolaan dan pelaporan", ikon: "kelola", item: [
+              { syarat: "Menjalankan sistem penjaminan mutu internal (SPMI)", pasal: ["P39-67-1"] },
+              { syarat: "Melapor berkala ke PDDikti, termasuk hasil penilaian mahasiswa", pasal: ["P7-69-1", "P39-28-7"], sanksi: "ringan" },
+              { syarat: "Mengumumkan ringkasan laporan tahunan kepada masyarakat", pasal: ["P7-69-1"], sanksi: "ringan" },
+              { syarat: "Mengajukan akreditasi ulang sebelum masa berlaku habis", pasal: ["UU12-33-6", "P7-71"], sanksi: "berat", sanksiTeks: "Bila dilanggar: langsung sanksi berat" }
+            ]}
+          ]
+        }
+      ]
+    },
+
+    { id: "akreditasi", menu: "Jalur akreditasi", judul: "Jalur 1: akreditasi", ikon: "akreditasi",
+      sub: "Bila prodi dinilai tidak memenuhi SN Dikti, izin dicabut tanpa tahapan sanksi",
       blok: [
         { tipe: "jalur",
           kolom: [
-            { judul: "Jalur 1 · Akreditasi", ikon: "akreditasi",
+            { judul: "Urutan kejadian", ikon: "akreditasi",
               item: [
                 { judul: "Wajib mengajukan akreditasi", ket: "2 tahun sejak mahasiswa baru pertama, lalu setiap 5 tahun", pasal: ["P10-77-1", "P39-77-3", "UU12-33-6"], tingkat: "normal" },
-                { judul: "Dinilai tidak memenuhi SN Dikti", ket: "Penilaian oleh BAN-PT atau LAM", pasal: ["P39-77-6", "P39-74"], tingkat: "ringan" },
+                { judul: "Dinilai tidak memenuhi SN Dikti", ket: "Penilaian oleh BAN-PT atau LAM atas syarat di halaman Ceklis syarat", pasal: ["P39-77-6", "P39-74"], tingkat: "ringan" },
                 { judul: "Satu kali ajukan ulang", ket: "Paling lambat 6 bulan", pasal: ["P10-77-ulang"], tingkat: "sedang" },
                 { judul: "Status tidak terakreditasi", ket: "Ditetapkan BAN-PT atau LAM", pasal: ["P39-77-6"], tingkat: "berat" },
                 { judul: "Izin prodi dicabut Menteri", ket: "Wajib, tanpa tahapan sanksi", pasal: ["P39-77-7"], tingkat: "cabut" }
               ],
               catatan: { isi: "Prodi yang tidak mengajukan akreditasi dalam masa peralihan (batas 2 September 2026) juga dicabut izinnya.", pasal: ["P39-114"] }
-            },
-            { judul: "Jalur 2 · Sanksi administratif", ikon: "sanksi",
-              item: [
-                { judul: "Dugaan pelanggaran diketahui", ket: "Dari BAN-PT/LAM, LLDIKTI, Kementerian, pengawas, atau pengaduan", pasal: ["P7-79"], tingkat: "normal" },
-                { judul: "Diperiksa dan ditetapkan", ket: "Ringan oleh LLDIKTI; sedang dan berat oleh Dirjen", pasal: ["P7-80", "P7-81"], tingkat: "ringan" },
-                { judul: "Naik bertingkat bila tidak diperbaiki", ket: "Ringan → sedang → berat, tiap tingkat 6 bulan", pasal: ["P7-74", "P7-75", "P7-76"], tingkat: "sedang" },
-                { judul: "Penghentian pembinaan", ket: "Tahap terakhir sebelum izin dicabut", pasal: ["P7-72-3", "P7-76"], tingkat: "berat" },
-                { judul: "Izin prodi dicabut, prodi ditutup", ket: "Penutupan ditetapkan Menteri", pasal: ["P7-72-3", "P7-27-1", "P7-27-2"], tingkat: "cabut" }
-              ],
-              catatan: { isi: "Rincian tiap tingkat sanksi ada di tangga di bawah.", pasal: [] }
             }
           ]
         },
-        { tipe: "tangga", judul: "Tangga sanksi administratif",
+        { tipe: "kartu",
+          item: [
+            { ikon: "mata", judul: "Pemantauan sewaktu-waktu", isi: "BAN-PT atau LAM dapat memantau mutu prodi terakreditasi kapan saja dari data PDDikti dan pengaduan masyarakat.", pasal: ["P39-83"], tingkat: "ringan" },
+            { ikon: "ceklis", judul: "Apa yang dinilai", isi: "Pemenuhan SN Dikti. Syarat yang angkanya tertulis di regulasi ada di halaman Ceklis syarat.", pasal: ["P39-74"], tingkat: "aksen" }
+          ]
+        }
+      ]
+    },
+
+    { id: "sanksi", menu: "Jalur sanksi", judul: "Jalur 2: sanksi administratif", ikon: "sanksi",
+      sub: "Pelanggaran yang tidak diperbaiki naik bertingkat sampai izin dicabut",
+      blok: [
+        { tipe: "jalur",
+          kolom: [
+            { judul: "Urutan kejadian", ikon: "sanksi",
+              item: [
+                { judul: "Dugaan pelanggaran diketahui", ket: "Dari BAN-PT/LAM, LLDIKTI, Kementerian, pengawas, pengaduan, atau media", pasal: ["P7-79"], tingkat: "normal" },
+                { judul: "Diperiksa dan ditetapkan", ket: "Ringan oleh LLDIKTI; sedang dan berat oleh Direktur Jenderal", pasal: ["P7-80", "P7-81"], tingkat: "ringan" },
+                { judul: "Naik bertingkat bila tidak diperbaiki", ket: "Ringan → sedang → berat, tiap tingkat 6 bulan", pasal: ["P7-74", "P7-75", "P7-76"], tingkat: "sedang" },
+                { judul: "Penghentian pembinaan", ket: "Tahap terakhir sebelum izin dicabut", pasal: ["P7-72-3", "P7-76"], tingkat: "berat" },
+                { judul: "Izin prodi dicabut, prodi ditutup", ket: "Penutupan ditetapkan Menteri", pasal: ["P7-72-3", "P7-27-1", "P7-27-2"], tingkat: "cabut" }
+              ]
+            }
+          ]
+        },
+        { tipe: "tangga", judul: "Tangga sanksi: klik setiap anak tangga",
           total: "Minimal ±18 bulan dari teguran tertulis sampai izin dicabut",
           tingkat: [
             { kode: "ringan", judul: "Sanksi ringan", bentuk: "Peringatan tertulis", tenggat: "6 bulan untuk menghentikan pelanggaran", oleh: "Ditetapkan pemimpin LLDIKTI",
@@ -282,13 +373,18 @@ window.ISI = {
               judulDaftar: "Akibat yang harus ditanggung",
               pelanggaranPasal: ["P7-77"] }
           ]
-        },
-        { tipe: "kartu", judul: "Hak membela diri",
+        }
+      ]
+    },
+
+    { id: "hak", menu: "Hak membela diri", judul: "Hak membela diri", ikon: "perisai",
+      sub: "Upaya yang dapat ditempuh atas sanksi atau status akreditasi",
+      blok: [
+        { tipe: "kartu",
           item: [
             { ikon: "dokumen", judul: "Keberatan atas sanksi", isi: "Diajukan tertulis paling lama 21 hari kerja. Tidak menunda sanksi. Berlaku untuk sanksi ringan, sedang, dan penghentian pembinaan, tidak untuk pencabutan izin.", pasal: ["P7-82"], tingkat: "normal" },
             { ikon: "jam", judul: "Wajib dijawab 10 hari kerja", isi: "Bila pejabat tidak menjawab dalam 10 hari kerja, keberatan dianggap dikabulkan. Penolakan dapat dibanding.", pasal: ["P7-83", "P7-84-1"], tingkat: "aksen" },
-            { ikon: "akreditasi", judul: "Keberatan atas status akreditasi", isi: "Diajukan kepada BAN-PT atau LAM yang menetapkan status.", pasal: ["P39-80-1"], tingkat: "normal" },
-            { ikon: "mata", judul: "Pemantauan sewaktu-waktu", isi: "BAN-PT atau LAM dapat memantau mutu prodi terakreditasi kapan saja dari data PDDikti dan pengaduan.", pasal: ["P39-83"], tingkat: "ringan" }
+            { ikon: "akreditasi", judul: "Keberatan atas status akreditasi", isi: "Diajukan kepada BAN-PT atau LAM yang menetapkan status.", pasal: ["P39-80-1"], tingkat: "normal" }
           ]
         }
       ]
