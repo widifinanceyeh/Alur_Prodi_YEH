@@ -295,7 +295,7 @@ function rujuk(x,kelas){
 function dasar(arr){ return arr&&arr.length?'<div class="dasar">'+arr.map(function(x){return rujuk(x);}).join("")+'</div>':''; }
 function bukaPs(keys,lb){
   var I=window.ISI; $("laciJ").textContent=lb; var r=I.regulasi[I.pasal[keys[0]].reg]||{}; $("laciS").textContent=r.singkat||"";
-  $("laciI").innerHTML=keys.map(function(k){var p=I.pasal[k],g=I.regulasi[p.reg]||{};return '<div class="ps"><h4>'+esc(p.label)+' '+esc(g.singkat||"")+'</h4><p>'+esc(p.bunyi)+'</p>'+(p.status==="ringkasan"?'<div class="rk">Ringkasan, bunyi resmi menyusul.</div>':'')+'</div>';}).join("");
+  $("laciI").innerHTML=keys.map(function(k){var p=I.pasal[k],g=I.regulasi[p.reg]||{};return '<div class="ps"><h4>'+esc(p.label)+' '+esc(g.singkat||"")+'</h4><p>'+esc(p.bunyi).replace(/ (\(\d+\)) /g,'<br><br>$1 ').replace(/([:;])( dan\/atau| dan| atau)? ([a-z]\.) /g,'$1$2<br>$3 ')+'</p>'+(p.status==="ringkasan"?'<div class="rk">Ringkasan, bunyi resmi menyusul.</div>':'')+'</div>';}).join("");
   $("laci").classList.add("buka"); $("tirai").classList.add("buka");
 }
 function tutupPs(){ $("laci").classList.remove("buka"); $("tirai").classList.remove("buka"); }
