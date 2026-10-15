@@ -65,6 +65,16 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 .sub{color:var(--muted);font-size:13.5px;margin:-6px 0 10px}
 
 /* kondisi */
+.tbl-w{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:820px}
+.tbl th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:9px 10px;font-size:12.5px;line-height:1.3;vertical-align:bottom}
+.tbl th small{color:var(--pink);font-weight:500}
+.tbl td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+.tbl td.a{text-align:center}.tbl td small{display:block;font-size:11px;color:var(--muted);line-height:1.3;margin-top:2px}
+.tbl td.merah{color:var(--cabut);font-weight:700}
+.tbl tbody tr{cursor:pointer;transition:background .2s}.tbl tbody tr:hover{background:var(--pink-soft)}
+.tbl tr.pilih{background:var(--navy-soft);box-shadow:inset 4px 0 0 var(--pink)}
+.tbl-ket{font-size:12.5px;color:var(--muted);margin-top:8px}
 .ubin{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .u{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;border-top:4px solid var(--navy-line)}
 .u .l{font-size:12.5px;color:var(--muted);font-weight:600}
@@ -304,6 +314,7 @@ document.addEventListener("keydown",function(e){ if(e.key==="Escape") tutupPs();
 function ik(n){var P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'};return '<svg class="ic" viewBox="0 0 24 24">'+P[n]+'</svg>';}
 
 /* ---------- tampil ---------- */
+function tercepat(x){ var L=x.skenario.filter(function(s){return s.tutup;}).sort(function(a,b){return bln(a.tutup)-bln(b.tutup);}); return L[0]||{tutupTeks:"–",judul:""}; }
 function tampil(st){
   var P=D.prodi.filter(function(x){return x.id===st.p;})[0]||D.prodi[0];
   var h='<div class="kendali"><div><label for="pProdi">Program studi</label><select id="pProdi">'+
@@ -312,8 +323,10 @@ function tampil(st){
     P.skenario.map(function(s){return '<option value="'+s.id+'"'+(s.id===st.s?' selected':'')+'>Skenario: '+esc(s.judul)+'</option>';}).join("")+
     '</select></div></div>';
 
-  h+='<h2>Kondisi saat ini</h2><div class="ubin">'+P.kondisi.map(function(u){
-    return '<div class="u t-'+esc(u.tingkat)+'"><div class="l">'+esc(u.label)+'</div><div class="n">'+esc(u.nilai)+'</div><div class="r">'+esc(u.rinci)+'</div></div>';}).join("")+'</div>';
+  h+='<h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th><th>Mhs Tk I<br><small>2026</small></th><th>Mhs Tk II<br><small>2025</small></th><th>Total</th><th>Dosen tetap<br><small>min. 5</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
+    D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x);
+      return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td><td class="a">'+esc(t.tk1)+'</td><td class="a">'+esc(t.tk2)+'</td><td class="a"><b>'+esc(t.total)+'</b></td><td class="a"><b>'+esc(t.dosen)+'</b><small>'+esc(t.dosenKet)+'</small></td><td>'+esc(t.akreditasi)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
+    '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc(D.catatanUmum)+' ':'')+'* KWU: 1 dosen tercatat dalam penggantian. Klik baris untuk memilih prodi.</div>';
 
   if(P.catatan&&P.catatan.length){
     h+='<h2>Yang perlu diperhatikan</h2><div class="catatan">'+P.catatan.map(function(c){
@@ -328,6 +341,9 @@ function tampil(st){
   $("isi").innerHTML=h;
   $("pProdi").addEventListener("change",function(){ pilih({p:this.value,s:"ringkas"}); });
   $("pSk").addEventListener("change",function(){ pilih({p:P.id,s:this.value}); });
+  Array.prototype.forEach.call(document.querySelectorAll("tr[data-prodi]"),function(el){
+    el.addEventListener("click",function(){ var v=el.getAttribute("data-prodi"); if(v!==P.id) pilih({p:v,s:"ringkas"}); });
+  });
   Array.prototype.forEach.call(document.querySelectorAll("[data-sk]"),function(el){
     el.addEventListener("click",function(){ pilih({p:P.id,s:el.getAttribute("data-sk")}); });
   });
