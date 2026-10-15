@@ -238,6 +238,38 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
   .atas,.kendali{display:none}
   body{background:#fff}
 }
+
+/* ---- v1.2: satu halaman mengalir ---- */
+.bar{position:sticky;top:var(--tinggi-atas,54px);z-index:15;background:var(--bg);padding:10px 0 9px;margin-bottom:6px;box-shadow:0 12px 16px -14px rgba(0,40,85,.55)}
+.bar .kendali{position:static;grid-template-columns:minmax(0,340px);box-shadow:none;margin-bottom:8px}
+.disi{display:flex;flex-wrap:wrap;gap:6px}
+.disi a{font-size:12.5px;font-weight:600;color:var(--navy);background:#fff;border:1px solid var(--navy-line);border-radius:999px;padding:5px 11px;text-decoration:none;white-space:nowrap}
+.disi a:hover{background:var(--navy-soft)}
+.sek{scroll-margin-top:calc(var(--tinggi-atas,54px) + 110px)}
+.hs-kini{background:var(--wb);border:1.5px solid var(--wk);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:13.5px;display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline}
+.hs-kini b{color:var(--navy)}.hs-kini span{color:var(--wk);font-weight:700}.hs-kini span i{font-style:normal;font-weight:600;color:var(--muted)}
+.cbg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cb{background:#fff;border:1px solid var(--line);border-top:5px solid var(--wk);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.cb h3{margin:0;font-size:14.5px;color:var(--navy);line-height:1.3}
+.cb .cb-tanda{align-self:flex-start;font-size:11px;font-weight:700;color:#fff;background:var(--wk);border-radius:999px;padding:2px 9px}
+.cb .cb-sy{font-size:12.5px;color:var(--muted);margin:0}
+.cb ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink)}.cb ul li{margin:3px 0}
+.cb .cb-ak{background:var(--wb);border-radius:10px;padding:8px 10px;font-size:13px;color:var(--wk);font-weight:700;line-height:1.4}
+.cb .dasar{margin-top:auto}
+.cb.mati{border-top-style:dashed;background:#FAFBFC}
+.cb.mati h3{color:var(--muted)}
+.sk-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.sk-chips button{font:inherit;font-size:13px;font-weight:600;color:var(--navy);background:#fff;border:1px solid var(--navy-line);border-radius:999px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.sk-chips button:hover{background:var(--navy-soft)}
+.sk-chips button small{font-size:11px;color:var(--muted);font-weight:600}
+.sk-chips button.pilih{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sk-chips button.pilih small{color:var(--pink)}
+.sk-judul{margin:16px 0 8px;font-size:15.5px;color:var(--navy)}
+.pola label{flex-wrap:wrap;max-width:100%}
+.pola select{max-width:100%}
+@media (max-width:980px){.cbg{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:700px){.pola{flex-direction:column;align-items:stretch}.pola label{width:100%}.pola select{width:100%}}
+@media print{.bar{display:none}}
 </style>
 </head>
 <body>
@@ -346,11 +378,24 @@ function daftar(P){
     '<div><h3>Dosen</h3><div class="tbl-w">'+tb([["Nama","nama"],["NUPTK","nuptk"],["NIDN","nidn"],["Ikatan kerja","ikatan kerja"],["Keterangan","keterangan"]],ds)+'</div></div>'+
     '<div><h3>Mahasiswa</h3><div class="tbl-w">'+tb([["Nama","nama"],["NIM","nim"],["Angkatan","angkatan"],["Status","status"]],mh)+'</div></div></div></details>';
 }
+function prodiRow(P){ var a=(ROSTER&&ROSTER.prodi)||[]; for(var i=0;i<a.length;i++){ if(String(a[i].prodi||"").trim().toLowerCase()===String(P.id).toLowerCase()) return a[i]; } return null; }
+function lembaga(P){ var x=prodiRow(P), v=x?String(x.lembaga||"").trim():""; return v||LEMBAGA[P.id]||""; }
+function ambangTeks(k,def){ var a=(ROSTER&&ROSTER.ambang)||[]; for(var i=0;i<a.length;i++) if(String(a[i].kunci).trim()===k){ var v=String(a[i].nilai||"").trim(); if(v) return v; } return def; }
+function tglSheet(x){ var t=String(x||"").trim(), m=t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/); if(m) return new Date(+m[1],+m[2]-1,+m[3]);
+  m=t.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/); if(m) return new Date(+m[3],+m[2]-1,+m[1]); return null; }
+function tglTeks(d){ return d?d.getDate()+" "+BLN[d.getMonth()]+" "+d.getFullYear():"–"; }
+function akibatButir(x){ var a=String(x["akibat bila gagal"]||"").trim(); if(a) return a;
+  if(!/^ya$/i.test(x["syarat perlu? (ya/tidak)"]||"")) return "Nilai berkurang";
+  return /^terakreditasi$/i.test(String(x["target akreditasi"]||"").trim())?"Tidak terakreditasi":"Peringkat tidak tercapai"; }
+function akrTeks(P,t){ var x=prodiRow(P);
+  if(!x||!String(x.status||"").trim()) return esc((t&&t.akreditasi)||"–")+'<small>'+(x?"[VERIFIKASI] belum diisi di tab Prodi":"")+'</small>';
+  var d=tglSheet(x["berlaku sampai"]);
+  return esc(x.status)+(x.peringkat?" · "+esc(x.peringkat):"")+'<small>'+(d?"berlaku s.d. "+tglTeks(d):"")+(x["no. sk"]?" · SK "+esc(x["no. sk"]):"")+'</small>'; }
 function mulai(d){ setTimeout(ukurAtas,0); ROSTER=null; setTimeout(muatDaftar,0);
   D=d; $("layarMasuk").hidden=true; $("app").hidden=false;
   $("judulApp").innerHTML=esc(d.judul)+"<small>Pembaruan data "+esc(d.pembaruan)+"</small>";
   riwayat=[]; posisi=-1;
-  var st={p:d.prodi[0].id,s:"peta"}; catat(st); tampil(st);
+  var st={p:d.prodi[0].id,s:null}; catat(st); tampil(st);
 }
 function pilih(st){ catat(st); tampil(st); }
 
@@ -365,7 +410,7 @@ var DRIVE=[[/^BA Monev/,"1Uhazvq6TzvrVKYJV-2VSkNBf5uXYOoI-"],[/^KepMen 229/,"1uT
 var PASAL=[[/^Ps 69 \(1\)/,["P7-69-1"]],[/^Ps 73 \(2\)/,["P7-73"]],[/^Ps 74 /,["P7-74"]],[/^Ps 75 /,["P7-75"]],[/^Ps 76 \([12]\)/,["P7-76"]],[/^Ps 72 \(3\)/,["P7-72-3"]],
  [/^Ps 71 /,["P7-71"]],[/^Ps 70 \(4\)/,["P39-70-4"]],[/^Ps 77 \(1\) Permen 10/,["P10-77-1"]],[/^Ps 77 \(4\) Permen 10/,["P10-77-ulang"]],[/^Ps 77 \(5\) Permen 10/,["P10-77-5"]],
  [/^Ps 77 \(6\) Permen 10/,["P10-77-6"]],[/^Ps 76 dan 77 \(1\) Permen 10/,["P10-76","P10-77-1"]],[/^Ps 77 .*Permen 7\/2020/,["P7-77"]],[/^Ps 27 \(1\)/,["P7-27-1"]],[/^Ps 27 \(2\)/,["P7-27-2"]],
- [/^Ps 114/,["P39-114"]],[/^Ps 83 /,["P39-83"]],[/^Ps 15/,["PP35-15"]],[/PP 35\/2021/,["PP35-40"]]];
+ [/^Ps 4 \(5\)/,["P7-4-5"]],[/^Ps 33 \(6\)/,["UU12-33-6"]],[/^Ps 33 \(7\)/,["UU12-33-7"]],[/^Ps 77 \(3\) Permen 39/,["P39-77-3"]],[/^Ps 114/,["P39-114"]],[/^Ps 83 /,["P39-83"]],[/^Ps 15/,["PP35-15"]],[/PP 35\/2021/,["PP35-40"]]];
 function rujuk(x,kelas){
   var i; for(i=0;i<DRIVE.length;i++) if(DRIVE[i][0].test(x)) return '<a class="rj drive '+(kelas||'')+'" href="https://drive.google.com/file/d/'+DRIVE[i][1]+'/view" target="_blank" rel="noopener" title="Buka PDF">'+esc(x)+'</a>';
   var I=window.ISI&&window.ISI.pasal;
@@ -387,42 +432,49 @@ function ik(n){var P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 
 function tercepat(x){ var L=x.skenario.filter(function(s){return s.tutup;}).sort(function(a,b){return bln(a.tutup)-bln(b.tutup);}); return L[0]||{tutupTeks:"–",judul:""}; }
 function tampil(st){
   var P=D.prodi.filter(function(x){return x.id===st.p;})[0]||D.prodi[0];
-  var h='<div class="kendali"><div><label for="pProdi">Program studi</label><select id="pProdi">'+
+  var MIN=ambang("MIN_DOSEN_TETAP",5), adaCat=!!(P.catatan&&P.catatan.length);
+  var SEK=[["s-kondisi","Kondisi hari ini"]];
+  if(adaCat) SEK.push(["s-catatan","Yang perlu diperhatikan"]);
+  SEK=SEK.concat([["s-peta","Peta sebab-akibat"],["s-hasil","Hasil akreditasi berikutnya"],["s-ringkas","Kapan paling cepat ditutup"],["s-skenario","Skenario penutupan"],["s-dampak","Dampak bila ditutup"]]);
+
+  var h='<div class="bar"><div class="kendali"><div><label for="pProdi">Program studi</label><select id="pProdi">'+
     D.prodi.map(function(x){return '<option value="'+x.id+'"'+(x.id===P.id?' selected':'')+'>'+esc(x.nama)+' ('+esc(x.jenjang)+')</option>';}).join("")+
-    '</select></div><div><label for="pSk">Tampilan</label><select id="pSk"><option value="peta"'+(st.s==="peta"?" selected":"")+'>Peta sebab-akibat bila keadaan berlanjut</option><option value="ringkas"'+(st.s==="ringkas"?" selected":"")+'>Ringkasan: kapan paling cepat ditutup</option>'+
-    P.skenario.map(function(s){return '<option value="'+s.id+'"'+(s.id===st.s?' selected':'')+'>Skenario: '+esc(s.judul)+'</option>';}).join("")+
-    '</select></div></div>';
+    '</select></div></div><nav class="disi">'+SEK.map(function(k){return '<a href="#'+k[0]+'">'+esc(k[1])+'</a>';}).join("")+'</nav></div>';
 
   var TK=nTk();
-  h+='<h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th>'+TK.map(function(k){return '<th>Mhs Tk '+["I","II","III","IV","V","VI","VII"][k-1]+'<br><small>'+(taKini()-k+1)+'</small></th>';}).join("")+'<th>Total</th><th>Dosen tetap<br><small>min. 5</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
+  h+='<section class="sek" id="s-kondisi"><h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th>'+TK.map(function(k){return '<th>Mhs Tk '+["I","II","III","IV","V","VI","VII"][k-1]+'<br><small>'+(taKini()-k+1)+'</small></th>';}).join("")+'<th>Total</th><th>Dosen tetap<br><small>min. '+MIN+'</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
     D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x),r=hitung(x);
       return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td>'+TK.map(function(k){return '<td class="a">'+(r?(r.tk[k]||"–"):esc(k===1?t.tk1:k===2?t.tk2:"–"))+'</td>';}).join("")+
-        '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<5?'kurang '+(5-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+esc(t.akreditasi)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
+        '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<MIN?'kurang '+(MIN-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+akrTeks(x,t)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
     '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc((ROSTER&&(ROSTER.instrumen||[]).length)?D.catatanUmum.replace(/\s*\(instrumen[^)]*\)\)?/,''):D.catatanUmum)+' ':'')+'* Ada dosen tercatat yang dalam penggantian. Klik baris untuk memilih prodi.</div>';
-  h+=daftar(P);
+  h+=daftar(P)+'</section>';
 
-  if(P.catatan&&P.catatan.length){
-    h+='<h2>Yang perlu diperhatikan</h2><div class="catatan">'+P.catatan.map(function(c){
-      return '<div class="ct t-'+esc(c.tingkat)+'"><h3>'+esc(c.judul)+'</h3><p>'+esc(c.isi)+'</p>'+dasar(c.dasar)+'</div>';}).join("")+'</div>';
+  if(adaCat){
+    h+='<section class="sek" id="s-catatan"><h2>Yang perlu diperhatikan</h2><div class="catatan">'+P.catatan.map(function(c){
+      return '<div class="ct t-'+esc(c.tingkat)+'"><h3>'+esc(c.judul)+'</h3><p>'+esc(c.isi)+'</p>'+dasar(c.dasar)+'</div>';}).join("")+'</div></section>';
   }
 
-  var S=P.skenario.filter(function(x){return x.id===st.s;})[0];
-  h+= st.s==="peta" ? peta(P,st) : (S ? skenario(S) : ringkas(P));
-  h+=dampak(P);
-  h+='<div class="kaki"><b>Sumber data</b><ul>'+D.sumber.map(function(s){return '<li>'+esc(s)+'</li>';}).join("")+'</ul><b>Asumsi.</b> '+esc(D.asumsi)+'</div>';
+  h+='<section class="sek" id="s-peta">'+peta(P,st)+'</section>';
+  h+='<section class="sek" id="s-hasil">'+hasil(P,st)+'</section>';
+  h+='<section class="sek" id="s-ringkas">'+ringkas(P)+'</section>';
+  h+='<section class="sek" id="s-skenario">'+skenarioSemua(P,st)+'</section>';
+  h+='<section class="sek" id="s-dampak">'+dampak(P)+'</section>';
+  h+='<div class="kaki"><b>Sumber data</b><ul>'+D.sumber.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><b>Asumsi.</b> '+esc(D.asumsi)+'</div>';
 
   $("isi").innerHTML=h;
-  $("pProdi").addEventListener("change",function(){ pilih({p:this.value,s:"peta"}); });
-  $("pSk").addEventListener("change",function(){ pilih({p:P.id,s:this.value}); });
-  if($("pPola")) $("pPola").addEventListener("change",function(){ pilih({p:P.id,s:"peta",pola:this.value,kosong:st.kosong,tetap:true}); });
-  if($("pKosong")) $("pKosong").addEventListener("change",function(){ pilih({p:P.id,s:"peta",pola:"kosong",kosong:+this.value,tetap:true}); });
+  $("pProdi").addEventListener("change",function(){ pilih({p:this.value,s:null}); });
+  if($("pPola")) $("pPola").addEventListener("change",function(){ pilih({p:P.id,s:st.s,pola:this.value,kosong:st.kosong,tetap:true}); });
+  if($("pKosong")) $("pKosong").addEventListener("change",function(){ pilih({p:P.id,s:st.s,pola:st.pola||"kosong",kosong:+this.value,tetap:true}); });
   Array.prototype.forEach.call(document.querySelectorAll("tr[data-prodi]"),function(el){
-    el.addEventListener("click",function(){ var v=el.getAttribute("data-prodi"); if(v!==P.id) pilih({p:v,s:"peta"}); });
+    el.addEventListener("click",function(){ var v=el.getAttribute("data-prodi"); if(v!==P.id) pilih({p:v,s:null}); });
   });
   Array.prototype.forEach.call(document.querySelectorAll("[data-sk]"),function(el){
-    el.addEventListener("click",function(){ pilih({p:P.id,s:el.getAttribute("data-sk")}); });
+    el.addEventListener("click",function(){ pilih({p:P.id,s:el.getAttribute("data-sk"),pola:st.pola,kosong:st.kosong,tetap:true,ke:"s-skenario"}); });
+    el.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" ") el.click(); });
   });
-  aturNav(); if(!st.tetap) window.scrollTo(0,0);
+  aturNav();
+  if(st.ke){ var tj=$(st.ke); if(tj) tj.scrollIntoView({behavior:"smooth",block:"start"}); }
+  else if(!st.tetap) window.scrollTo(0,0);
 }
 
 /* ---------- peta sebab-akibat dan proyeksi ---------- */
@@ -433,33 +485,39 @@ function proyeksi(P,st){
   var ang={}, M=(ROSTER.mahasiswa||[]).filter(function(m){return milik(m,P);});
   M.forEach(function(m){ var a=+m.angkatan; if(a) ang[a]=(ang[a]||0)+1; });
   var th=Object.keys(ang).map(Number).sort(); if(!th.length) return null;
-  var awal=th[0], kini=taKini(), batasTh=awal+2, akhir=Math.max(batasTh,kini), T=ambang("TARGET_MHS_BARU",10);
+  var awal=th[0], kini=taKini(), batasTh=awal+2, T=ambang("TARGET_MHS_BARU",10);
+  var rw=prodiRow(P), tglU=rw?tglSheet(rw["berlaku sampai"]):null;
+  var thU=tglU?(tglU.getMonth()>=7?tglU.getFullYear():tglU.getFullYear()-1):batasTh;
+  var akhir=Math.max(batasTh,kini,thU);
   var terakhir=ang[Math.min(kini,th[th.length-1])]||0, baris=[];
   for(var y=awal;y<=akhir;y++){
     var nyata=y<=kini, n;
     if(nyata) n=ang[y]||0;
     else if(st.pola==="target") n=T;
     else if(st.pola==="kosong" && (+st.kosong||kini+1)===y) n=0;
+    else if(st.pola==="stop" && y>=(+st.kosong||kini+1)) n=0;
     else n=terakhir;
     baris.push({th:y,baru:n,nyata:nyata});
   }
-  baris.forEach(function(b,i){ var s=0; for(var j=Math.max(0,i-3);j<=i;j++) s+=baris[j].baru; b.aktif=s; b.nilai=(b.th===batasTh); });
+  baris.forEach(function(b,i){ var s=0; for(var j=Math.max(0,i-3);j<=i;j++) s+=baris[j].baru; b.aktif=s; b.nilai=(b.th===batasTh); b.ulang=(b.th===thU&&thU!==batasTh); });
   var w=baris.filter(function(b){return b.th>=batasTh-2&&b.th<=batasTh;}), turun=null;
   if(w.length>=2&&w[0].baru>0) turun=Math.max(0,Math.round((w[0].baru-w[w.length-1].baru)/w[0].baru*100));
   else if(w.length>=2) turun=(w[w.length-1].baru>0?0:100);
-  return {baris:baris,awal:awal,batasTh:batasTh,turun:turun,T:T,kini:kini};
+  return {baris:baris,awal:awal,batasTh:batasTh,turun:turun,T:T,kini:kini,thU:thU,tglU:tglU};
 }
 function stLabel(w){ return {merah:"Tidak memenuhi",kuning:"Perlu perhatian",hijau:"Memenuhi",abu:"Perlu bukti dokumen"}[w]; }
 function peta(P,st){
   var h='<h2>Peta sebab-akibat bila keadaan berlanjut</h2>';
   if(!ROSTER) return h+'<div class="tbl-ket">'+esc(PESAN_SHEET)+' Peta memerlukan data dari Sheet.</div>';
   var pr=proyeksi(P,st); if(!pr) return h+'<div class="tbl-ket">Belum ada data mahasiswa untuk prodi ini di Sheet.</div>';
-  var L=LEMBAGA[P.id]||"", T=pr.T, K=ambang("KUNING_MHS_PERSEN",50), MIN=ambang("MIN_DOSEN_TETAP",5);
-  var opsiKosong=[]; for(var y=pr.kini+1;y<=pr.batasTh;y++) opsiKosong.push(y);
+  var L=lembaga(P), T=pr.T, K=ambang("KUNING_MHS_PERSEN",50), MIN=ambang("MIN_DOSEN_TETAP",5);
+  var opsiKosong=[]; for(var y=pr.kini+1;y<=Math.max(pr.batasTh,pr.thU);y++) opsiKosong.push(y);
   var pola=st.pola||"sekarang", kos=st.kosong||opsiKosong[0];
-  h+='<div class="pola"><label>Pola penerimaan mahasiswa baru <select id="pPola"><option value="sekarang"'+(pola==="sekarang"?" selected":"")+'>Seperti sekarang</option>'+(opsiKosong.length?'<option value="kosong"'+(pola==="kosong"?" selected":"")+'>Ada tahun tanpa mahasiswa baru</option>':'')+'<option value="target"'+(pola==="target"?" selected":"")+'>Sesuai target ('+T+' per tahun)</option></select></label>'+
-    (pola==="kosong"?'<label>Tahun kosong <select id="pKosong">'+opsiKosong.map(function(y){return '<option'+(+kos===y?" selected":"")+'>'+y+'</option>';}).join("")+'</select></label>':'')+'</div>';
-  h+='<div class="proy">'+pr.baris.map(function(b){ return '<div class="py w-'+warnaMhs(b.baru,T,K)+(b.nilai?' nilai':'')+'"><span class="py-t">'+b.th+(b.nyata?'':' <i>proyeksi</i>')+'</span><span class="py-n">'+b.baru+'</span><small>mhs baru · aktif '+b.aktif+'</small>'+(b.nilai?'<em>Batas ajukan akreditasi</em>':'')+'</div>'; }).join("")+'</div>';
+  h+='<div class="pola"><label>Pola penerimaan mahasiswa baru <select id="pPola"><option value="sekarang"'+(pola==="sekarang"?" selected":"")+'>Seperti sekarang</option>'+
+    (opsiKosong.length?'<option value="kosong"'+(pola==="kosong"?" selected":"")+'>Ada satu tahun tanpa mahasiswa baru</option><option value="stop"'+(pola==="stop"?" selected":"")+'>Tidak ada mahasiswa baru lagi mulai tahun tertentu</option>':'')+
+    '<option value="target"'+(pola==="target"?" selected":"")+'>Sesuai target ('+T+' per tahun)</option></select></label>'+
+    ((pola==="kosong"||pola==="stop")?'<label>'+(pola==="stop"?"Mulai tahun":"Tahun kosong")+' <select id="pKosong">'+opsiKosong.map(function(y){return '<option'+(+kos===y?" selected":"")+'>'+y+'</option>';}).join("")+'</select></label>':'')+'</div>';
+  h+='<div class="proy">'+pr.baris.map(function(b){ return '<div class="py w-'+warnaMhs(b.baru,T,K)+(b.nilai?' nilai':'')+'"><span class="py-t">'+b.th+(b.nyata?'':' <i>proyeksi</i>')+'</span><span class="py-n">'+b.baru+'</span><small>mhs baru · aktif '+b.aktif+'</small>'+(b.nilai?'<em>Batas ajukan akreditasi</em>':'')+(b.ulang?'<em>Akreditasi ulang</em>':'')+'</div>'; }).join("")+'</div>';
   var bn=pr.baris.filter(function(b){return b.th===pr.batasTh;})[0]||pr.baris[pr.baris.length-1];
   var r=hitung(P), batasTgl=new Date(pr.batasTh,8,1), sisa=Math.round((batasTgl-new Date())/(30.44*864e5));
   var INS=(ROSTER.instrumen||[]).filter(function(x){return x.lembaga===L&&/^terakreditasi$/i.test(x["target akreditasi"]||"");});
@@ -510,6 +568,91 @@ function peta(P,st){
   return h;
 }
 
+function hasil(P,st){
+  var h='<h2>Hasil akreditasi berikutnya</h2><p class="sub">Tiga kemungkinan hasil saat prodi diakreditasi ulang. Angka mengikuti pilihan pola penerimaan di bagian sebelumnya.</p>';
+  if(!ROSTER) return h+'<div class="tbl-ket">'+esc(PESAN_SHEET)+'</div>';
+  var pr=proyeksi(P,st); if(!pr) return h+'<div class="tbl-ket">Belum ada data mahasiswa untuk prodi ini di Sheet.</div>';
+  var row=prodiRow(P), L=lembaga(P), MIN=ambang("MIN_DOSEN_TETAP",5), T=pr.T, r=hitung(P);
+  var bU=pr.baris.filter(function(b){return b.th===pr.thU;})[0]||pr.baris[pr.baris.length-1];
+  var tglTxt=pr.tglU?tglTeks(pr.tglU):"tanggal belum diisi di tab Prodi";
+  var pk=row?String(row.peringkat||"").trim():"", st2=row?String(row.status||"").trim():"";
+  var urut=peringkatUrut(), iPk=-1;
+  for(var u=0;u<urut.length;u++) if(urut[u].toLowerCase()===pk.toLowerCase()) iPk=u;
+  var terendah=(iPk===0), tahuPeringkat=(iPk>=0);
+
+  var INS=(ROSTER.instrumen||[]).filter(function(x){return String(x.lembaga||"").trim()===L;});
+  var nA=0,nP=0;
+  INS.forEach(function(x){ var a=akibatButir(x); if(a==="Tidak terakreditasi") nA++; else if(a==="Peringkat tidak tercapai") nP++; });
+
+  /* arah yang ditunjuk proyeksi */
+  var arah=1, alasan=[], kosong=pr.baris.filter(function(b){return !b.nyata&&b.baru===0&&b.th<=pr.thU;}).map(function(b){return b.th;});
+  if(bU.aktif===0){ arah=3; alasan.push("tidak ada mahasiswa aktif pada tahun penilaian "+bU.th); }
+  if(r&&r.dosen<MIN){ arah=3; alasan.push("dosen tetap "+r.dosen+" di bawah minimum "+MIN); }
+  if(arah!==3){
+    if(bU.baru===0) alasan.push("tidak ada mahasiswa baru pada tahun penilaian "+bU.th);
+    else if(bU.baru<T) alasan.push("mahasiswa baru "+bU.baru+" di bawah target "+T);
+    if(kosong.length) alasan.push("angkatan "+kosong.join(", ")+" kosong pada pola ini, sehingga butir yang menuntut bukti pembelajaran pada tingkat itu tidak dapat dibuktikan");
+    if(kosong.length>1) alasan.push("mahasiswa aktif tinggal "+bU.aktif+" orang dan habis "+(4-kosong.length>0?"dalam "+(4-kosong.length)+" tahun lagi":"pada tahun berikutnya")+" bila pola ini berlanjut");
+    if(alasan.length) arah=terendah?1:2;
+  }
+  if(!st2) alasan.push("status akreditasi berjalan belum diisi di tab Prodi, sehingga arah ini masih perkiraan");
+  var wArah=arah===3?"merah":((arah===2||alasan.length)?"kuning":"hijau");
+
+  h+='<div class="hs-kini w-'+wArah+'"><b>Saat akreditasi ulang '+(pr.tglU?esc(tglTxt):'('+esc(tglTxt)+', dipakai perkiraan '+bU.th+')')+'</b>'+
+    '<span>'+bU.aktif+' <i>mahasiswa aktif</i></span><span>'+bU.baru+' <i>mahasiswa baru '+bU.th+'</i></span>'+
+    '<span>'+(r?r.dosen:"–")+' <i>dosen tetap</i></span><span>'+esc(st2||"status belum diisi")+(pk?" · "+esc(pk):"")+' <i>status sekarang</i></span>'+
+    (kosong.length?'<span>'+kosong.join(", ")+' <i>tahun tanpa mahasiswa baru (pilihan pola)</i></span>':'')+'</div>';
+
+  var kartu=[];
+  kartu.push({w:"hijau",n:1,judul:"Peringkat bertahan atau naik",
+    sy:"Seluruh "+nA+" syarat perlu status terakreditasi terpenuhi, dan butir peringkat "+(nP?"("+nP+" butir) ":"")+"memenuhi rubrik lembaga.",
+    li:["Status terakreditasi berlanjut 5 tahun berikutnya.","Prodi dapat meluluskan mahasiswa dan menerbitkan ijazah.","Peringkat dapat naik bila butir peringkat terpenuhi lebih banyak."],
+    ak:"Prodi tetap berjalan. Tidak ada jalur penutupan dari cabang ini.",
+    ds:["Ps 77 (3) Permen 39/2025","Ps 33 (6) UU 12/2012"]});
+
+  kartu.push({w:"kuning",n:2,mati:terendah,judul:terendah?"Peringkat turun — tidak berlaku untuk prodi ini":"Peringkat turun",
+    sy:terendah?("Peringkat berjalan "+esc(pk)+" adalah peringkat terendah pada urutan "+esc(urut.join(" – "))+". Tidak ada peringkat di bawahnya, sehingga kegagalan butir peringkat tidak menurunkan apa pun. Yang tersisa hanya cabang ketiga."):
+      ("Syarat perlu status terakreditasi tetap terpenuhi, tetapi "+(nP?nP+" butir peringkat":"butir peringkat")+" tidak tercapai."+(tahuPeringkat?" Peringkat turun satu tingkat dari "+esc(pk)+".":" Peringkat berjalan belum diisi, besarnya penurunan belum dapat dihitung.")),
+    li:terendah?["Setiap kekurangan berikutnya langsung diukur terhadap status, bukan terhadap peringkat.","Margin prodi ini nol: tidak ada tingkat penyangga sebelum tidak terakreditasi."]:
+      ["Prodi tetap terakreditasi dan tetap dapat meluluskan mahasiswa.","Tidak ada penutupan prodi dari cabang ini.","Prodi sebidang di bawahnya tidak lagi memenuhi syarat membuka jenjang di atasnya, yang menuntut peringkat minimal Baik Sekali."],
+    ak:terendah?"Tidak ada akibat tersendiri. Risiko prodi ini seluruhnya ada di cabang ketiga.":"Prodi tetap berjalan dengan peringkat lebih rendah. Turun peringkat bukan penyebab penutupan.",
+    ds:terendah?[]:["Ps 4 (5) Permen 7/2020"]});
+
+  kartu.push({w:"merah",n:3,judul:"Tidak terakreditasi",
+    sy:"Dipicu salah satu dari: satu saja dari "+nA+" syarat perlu status terakreditasi tidak terpenuhi, atau prodi tidak mengajukan akreditasi ulang sampai masa berlakunya habis.",
+    li:["Diberi kesempatan satu kali mengajukan kembali, paling lambat 6 bulan.","Bila penilaian ulang tetap tidak memenuhi SN Dikti, ditetapkan status tidak terakreditasi.","Menteri mencabut izin prodi. Prodi ditutup.","Ijazah tidak dapat diterbitkan dan gelar yang terlanjur keluar dapat dinyatakan tidak sah."],
+    ak:"Inilah satu-satunya cabang yang berujung penutupan prodi.",
+    ds:["Ps 77 (4) Permen 10/2026","Ps 77 (5) Permen 10/2026","Ps 77 (6) Permen 10/2026","Ps 33 (7) UU 12/2012"]});
+
+  h+='<div class="cbg">'+kartu.map(function(k){
+    return '<div class="cb w-'+k.w+(k.mati?' mati':'')+'">'+((k.n===arah&&!k.mati)?'<span class="cb-tanda">Arah proyeksi sekarang</span>':'')+
+      '<h3>'+k.n+'. '+esc(k.judul)+'</h3><p class="cb-sy">'+k.sy+'</p><ul>'+k.li.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>'+
+      '<div class="cb-ak">'+esc(k.ak)+'</div>'+dasar(k.ds)+'</div>';}).join("")+'</div>';
+  h+='<p class="sub">Bila cabang ketiga yang terjadi, urutan kejadian sampai prodi benar-benar ditutup ada pada <a href="#s-ringkas">bagian berikutnya</a>.</p>';
+
+  var bacaan;
+  if(arah===3) bacaan='mengarah ke cabang 3, tidak terakreditasi, karena '+esc(alasan.join("; "))+'.';
+  else if(arah===2) bacaan='mengarah ke cabang 2, peringkat turun, karena '+esc(alasan.join("; "))+'.';
+  else if(alasan.length) bacaan='masih bertahan di cabang 1, tetapi tanpa margin: '+esc(alasan.join("; "))+'.'+(terendah?' Peringkat '+esc(pk)+' adalah yang terendah, sehingga kekurangan berikutnya langsung diukur terhadap status, bukan terhadap peringkat.':'');
+  else bacaan='berada di cabang 1, seluruh syarat perlu terpenuhi.';
+  h+='<div class="tbl-ket"><b>Bacaan: </b>dengan pola yang dipilih sekarang, pada akreditasi ulang '+(pr.tglU?esc(tglTxt):'(tanggalnya belum diisi di tab Prodi)')+' prodi ini '+bacaan+
+    ' Status terakreditasi yang sedang berjalan tidak menjamin apa pun pada penilaian berikutnya: prodi yang hari ini terakreditasi dapat ditetapkan tidak terakreditasi bila SN Dikti tidak lagi terpenuhi.'+
+    ' Ps 77 ayat (4)–(6) Permen 10/2026 ditulis untuk permohonan akreditasi yang pertama; penerapannya pada akreditasi ulang mengikuti Ps 33 ayat (6) dan (7) UU 12/2012 dan ditandai sebagai tafsiran. [VERIFIKASI]</div>';
+  return h;
+}
+
+function skenarioSemua(P,st){
+  var L=P.skenario.slice().sort(function(a,b){ if(!a.tutup) return 1; if(!b.tutup) return -1; return bln(a.tutup)-bln(b.tutup); });
+  var ada=P.skenario.filter(function(x){return x.id===st.s;})[0];
+  var pilihId=ada?ada.id:(L[0]&&L[0].id);
+  var h='<h2>Skenario penutupan</h2><p class="sub">Pilih satu untuk melihat urutan kejadiannya.</p><div class="sk-chips">'+
+    L.map(function(x){return '<button type="button" data-sk="'+esc(x.id)+'"'+(x.id===pilihId?' class="pilih"':'')+'>'+esc(x.judul)+'<small>'+esc(x.tutupTeks)+'</small></button>';}).join("")+'</div>';
+  var S=P.skenario.filter(function(x){return x.id===pilihId;})[0];
+  return h+(S?skenario(S):'');
+}
+
+function peringkatUrut(){ return ambangTeks("URUTAN_PERINGKAT","Baik | Baik Sekali | Unggul").split("|").map(function(x){return x.trim();}).filter(Boolean); }
+
 function ringkas(P){
   var now=kini();
   var L=P.skenario.slice().sort(function(a,b){ if(!a.tutup) return 1; if(!b.tutup) return -1; return bln(a.tutup)-bln(b.tutup); });
@@ -531,7 +674,7 @@ function ringkas(P){
 }
 
 function skenario(S){
-  var h='<h2>Skenario: '+esc(S.judul)+'</h2><div class="sk-kepala"><span class="lbl">'+esc(S.jenis)+'</span><span class="tutup">Paling cepat ditutup: '+esc(S.tutupTeks)+'</span><p>'+esc(S.ringkas)+'</p></div>';
+  var h='<h3 class="sk-judul">Skenario: '+esc(S.judul)+'</h3><div class="sk-kepala"><span class="lbl">'+esc(S.jenis)+'</span><span class="tutup">Paling cepat ditutup: '+esc(S.tutupTeks)+'</span><p>'+esc(S.ringkas)+'</p></div>';
   h+='<div class="garis" style="--n:'+S.langkah.length+'">'+S.langkah.map(function(l){
     return '<div class="gt t-'+esc(l.tingkat)+'"><div class="w">'+esc(l.waktu)+(l.asumsi?'<i>asumsi</i>':'')+'</div><div class="tt"></div><div class="kt">'+
       (l.tafsiran?'<span class="taf">Tafsiran terburuk</span>':'')+'<h3>'+esc(l.judul)+'</h3><p>'+esc(l.ket)+'</p>'+dasar(l.dasar)+'</div></div>';}).join("")+'</div>';

@@ -10,7 +10,7 @@ window.ISI = {
   meta: {
     judul: "Alur Program Studi",
     organisasi: "Yayasan Eka Harap",
-    pembaruan: "15 Oktober 2026"
+    pembaruan: "15 Oktober 2026 · WV v1.2"
   },
 
   /* ---------- DAFTAR REGULASI ---------- */
@@ -297,6 +297,13 @@ window.ISI = {
             { ikon: "ceklis", judul: "Apa yang dinilai", isi: "Pemenuhan SN Dikti (standar minimum nasional): dosen, kurikulum, kelulusan, dan pengelolaan.", pasal: ["P39-74"], tingkat: "aksen", ke: "ceklis", keTeks: "Lihat syarat wajib" },
             { ikon: "mata", judul: "Dipantau sewaktu-waktu", isi: "BAN-PT atau LAM dapat memantau mutu prodi kapan saja dari data PDDikti (pangkalan data pendidikan tinggi) dan pengaduan.", pasal: ["P39-83"], tingkat: "ringan" },
             { ikon: "jam", judul: "Batas masa peralihan", isi: "Prodi yang belum terakreditasi wajib mengajukan akreditasi paling lambat 2 September 2026. Bila tidak, izinnya dicabut.", pasal: ["P39-114"], tingkat: "berat" }
+          ]
+        },
+        { tipe: "kartu", judul: "Tiga kemungkinan hasil akreditasi ulang",
+          item: [
+            { ikon: "akreditasi", judul: "1. Peringkat bertahan atau naik", isi: "Seluruh syarat perlu terpenuhi. Status terakreditasi berlaku 5 tahun berikutnya dan prodi tetap dapat meluluskan mahasiswa.", pasal: ["P39-77-3", "UU12-33-6"], tingkat: "normal" },
+            { ikon: "jam", judul: "2. Peringkat turun", isi: "Syarat perlu status tetap terpenuhi, tetapi butir peringkat tidak tercapai. Prodi tetap terakreditasi dan tidak ditutup. Yang hilang adalah syarat membuka jenjang di atasnya, yang menuntut prodi sebidang berperingkat minimal Baik Sekali. Pada peringkat terendah tidak ada lagi ruang turun, sehingga kekurangan berikutnya langsung jatuh ke kemungkinan ketiga.", pasal: ["P7-4-5"], tingkat: "ringan" },
+            { ikon: "cabut", judul: "3. Tidak terakreditasi", isi: "Satu saja syarat perlu status tidak terpenuhi, atau prodi tidak mengajukan akreditasi ulang sampai masa berlakunya habis. Diberi kesempatan mengajukan kembali satu kali paling lambat 6 bulan; bila tetap gagal, Menteri mencabut izin dan prodi ditutup. Hanya kemungkinan ini yang berujung penutupan.", pasal: ["P10-77-ulang", "P10-77-5", "P10-77-6", "UU12-33-7"], tingkat: "cabut", ke: "penyebab", keTeks: "Lihat penyebab penutupan" }
           ]
         }
       ]
