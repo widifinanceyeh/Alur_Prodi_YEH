@@ -184,6 +184,17 @@ a{color:var(--navy)}
 .pyb-kanan li{margin-bottom:4px}
 .garis-jalur{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:12px;position:relative}
 .garis-jalur .chip{white-space:normal;flex-wrap:wrap;max-width:100%;row-gap:0}
+.ins-kendali{position:sticky;top:57px;z-index:15;background:var(--bg);display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:8px 0 10px;font-size:13px;color:var(--muted)}
+.ins-kendali label{display:flex;align-items:center;gap:6px;font-weight:600}
+.ins-kendali select{padding:6px 10px;border:1px solid var(--navy-line);border-radius:9px;font:inherit;font-weight:600;color:var(--navy);background:#fff}
+.ins-sp{color:#B5174F}
+.ins-w{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+.ins{width:100%;min-width:980px;border-collapse:collapse;font-size:13px}
+.ins th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px;font-size:12px;position:sticky;top:0}
+.ins td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.ins td small{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}
+.ins td.kecil{font-size:11.5px;color:var(--muted);max-width:220px}
+.ins tr.sp td{background:#FFF3F7}.ins tr.sp td:first-child{box-shadow:inset 4px 0 0 #B5174F}
 .garis-jalur:before{content:"";position:absolute;left:8px;right:8px;top:35px;height:2px;background:var(--navy-line)}
 .gr-waktu{font-size:13px;font-weight:700;color:var(--navy);height:22px;white-space:nowrap}
 .gr-titik{width:16px;height:16px;border-radius:50%;background:var(--tacc);margin:6px 0 10px;position:relative;box-shadow:0 0 0 4px var(--bg)}
@@ -362,6 +373,7 @@ a{color:var(--navy)}
   </form>
 </div>
 <script src="data-uneka.js"></script>
+<script src="api-url.js"></script>
 <script>
 (function(){
   var K="simYEH.v1", g=document.getElementById("gerbang");
@@ -563,6 +575,29 @@ R.penyebab = function(b){
   h+='</div><div class="pyb-kanan t-cabut"><div class="bulat">'+ic("cabut")+'</div><h3>'+esc(a.judul)+'</h3><p>'+esc(a.ket)+'</p><ul>'+(a.akibat||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>'+chips(a.pasal)+'</div></div>';
   return h;
 };
+R.instrumen = function(b,id){ setTimeout(function(){ muatIns(id); },0); return '<div id="ins-'+id+'"><div class="info">Memuat instrumen dari Sheet…</div></div>'; };
+var INS=null;
+function muatIns(id){
+  var el=document.getElementById("ins-"+id); if(!el) return;
+  if(INS){ gambarIns(el,id); return; }
+  var a=null; try{a=JSON.parse(sessionStorage.getItem("simYEH.v1")||"null");}catch(e){}
+  if(!window.API_URL_YEH||!a){ el.innerHTML='<div class="info">Instrumen dibaca dari Sheet. Alamat Sheet belum diisi di api-url.js, atau sesi login belum ada.</div>'; return; }
+  fetch(window.API_URL_YEH,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nama:a[0],sandi:a[1]})})
+  .then(function(r){return r.json();}).then(function(j){ if(j&&j.ok&&j.data){ INS=j.data.instrumen||[]; gambarIns(el,id); } else el.innerHTML='<div class="info">Gagal membaca Sheet: '+esc((j&&j.message)||"")+'</div>'; })
+  .catch(function(){ el.innerHTML='<div class="info">Sheet tidak dapat dihubungi.</div>'; });
+}
+function gambarIns(el,id){
+  var lb=el.getAttribute("data-l")||"BAN-PT", tg=el.getAttribute("data-t")||"Terakreditasi";
+  var tautan=function(t){ return esc(t).replace(/(https?:\/\/[^\s|]+)/g,'<a href="$1" target="_blank" rel="noopener">tautan</a>'); };
+  var L=INS.filter(function(x){ return x.lembaga===lb && (tg==="Semua"||(x["target akreditasi"]||"").indexOf(tg)===0); });
+  var sp=L.filter(function(x){return /^ya$/i.test(x["syarat perlu? (ya/tidak)"]||"");}).length;
+  el.innerHTML='<div class="ins-kendali"><label>Lembaga <select data-ins="l"><option value="BAN-PT"'+(lb==="BAN-PT"?" selected":"")+'>BAN-PT (BKI)</option><option value="LAMEMBA"'+(lb==="LAMEMBA"?" selected":"")+'>LAMEMBA (KWU)</option></select></label>'+
+    '<label>Target <select data-ins="t">'+["Terakreditasi","Unggul","Semua"].map(function(v){return '<option'+(v===tg?" selected":"")+'>'+v+'</option>';}).join("")+'</select></label>'+
+    '<span>'+L.length+' butir · <b class="ins-sp">'+sp+' syarat perlu</b></span></div>'+
+    '<div class="ins-w"><table class="ins"><thead><tr><th>Kriteria</th><th>Kode</th><th>Isi singkat</th><th>Syarat perlu</th><th>Data terkait</th><th>Angka ambang</th><th>Pengecualian prodi baru</th><th>Sumber</th></tr></thead><tbody>'+
+    L.map(function(x){ var y=/^ya$/i.test(x["syarat perlu? (ya/tidak)"]||""); return '<tr'+(y?' class="sp"':'')+'><td>'+esc(x.kriteria)+'</td><td>'+esc(x["kode butir"])+'</td><td>'+esc(x["isi singkat"])+(x["definisi singkatan"]?'<small>'+esc(x["definisi singkatan"])+'</small>':'')+'</td><td>'+(y?'<b>Ya</b>':'Tidak')+'</td><td>'+esc(x["data terkait"])+'</td><td>'+esc(x["angka ambang"]||"")+'</td><td>'+esc(x["pengecualian prodi baru"]||"")+'</td><td class="kecil">'+tautan(x["sumber (dokumen, halaman)"]||"")+'</td></tr>'; }).join("")+'</tbody></table></div>';
+  Array.prototype.forEach.call(el.querySelectorAll("select[data-ins]"),function(sl){ sl.addEventListener("change",function(){ el.setAttribute("data-"+sl.getAttribute("data-ins"),sl.value); gambarIns(el,id); }); });
+}
 R.garis = function(b){
   return '<div class="garis-jalur" style="--n:'+b.item.length+'">'+b.item.map(function(p){
     return '<div class="gr '+tk(p.tingkat)+'"><div class="gr-waktu">'+esc(p.waktu)+'</div><div class="gr-titik"></div><div class="gr-kartu"><b>'+esc(p.judul)+'</b><span>'+esc(p.ket)+'</span>'+chips(p.pasal)+'</div></div>';

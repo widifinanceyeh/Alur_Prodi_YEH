@@ -424,6 +424,11 @@ window.ISI = {
       ]
     },
 
+    { id: "instrumen", menu: "Instrumen akreditasi", judul: "Instrumen akreditasi program studi", ikon: "akreditasi",
+      sub: "Butir penilaian BAN-PT dan LAMEMBA. Baris merah muda adalah syarat perlu: bila tidak terpenuhi, prodi tidak terakreditasi.",
+      blok: [ { tipe: "instrumen" } ]
+    },
+
     { id: "regulasi", menu: "Dasar regulasi", judul: "Dasar regulasi", ikon: "buku",
       sub: "Regulasi yang menjadi rujukan web ini",
       blok: [ { tipe: "regulasi" } ]

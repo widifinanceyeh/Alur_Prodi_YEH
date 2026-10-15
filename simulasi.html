@@ -75,6 +75,27 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 .tbl tbody tr{cursor:pointer;transition:background .2s}.tbl tbody tr:hover{background:var(--pink-soft)}
 .tbl tr.pilih{background:var(--navy-soft);box-shadow:inset 4px 0 0 var(--pink)}
 .tbl-ket{font-size:12.5px;color:var(--muted);margin-top:8px}
+.pola{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
+.pola label{font-size:12.5px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:8px}
+.pola select{padding:6px 30px 6px 10px;border:1px solid var(--navy-line);border-radius:9px;font-weight:600;color:var(--navy);background:#fff}
+.proy{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.py{flex:1 0 110px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy-line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column}
+.py-t{font-size:12px;font-weight:700;color:var(--navy)}.py-t i{font-style:normal;font-weight:600;font-size:10.5px;color:#7A5300;background:#FFF4D6;border-radius:999px;padding:0 6px}
+.py-n{font-size:22px;font-weight:700;line-height:1.2}.py small{font-size:11px;color:var(--muted)}
+.py em{font-style:normal;font-size:10.5px;font-weight:700;color:#fff;background:var(--navy);border-radius:999px;padding:1px 7px;margin-top:4px;width:max-content}
+.py.nilai{box-shadow:0 0 0 2px var(--navy)}
+.w-hijau{--wk:#1E7B4A;--wb:#E3F4EA}.w-kuning{--wk:#9A6A00;--wb:#FFF4D6}.w-merah{--wk:#B5174F;--wb:#FBE3EB}.w-abu{--wk:#5D6879;--wb:#F1F3F6}
+.py{border-top-color:var(--wk)}.py-n{color:var(--wk)}
+.peta4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;position:relative}
+.pkol{display:flex;flex-direction:column;gap:8px;position:relative}
+.pkol h4{margin:0 0 2px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pkol:not(:last-child):after{content:"→";position:absolute;right:-18px;top:50%;font-size:20px;font-weight:700;color:var(--navy)}
+.pk{background:var(--wb);border:1.5px solid var(--wk);border-radius:12px;padding:9px 11px;display:flex;flex-direction:column;gap:2px}
+.pk b{font-size:13px;color:var(--navy);line-height:1.3}.pk-n{font-size:20px;font-weight:700;color:var(--wk);line-height:1.2}
+.pk small{font-size:11.5px;color:var(--muted);line-height:1.4}.pk small a{color:var(--navy)}
+.pk .rj{font-size:11px}
+@media (max-width:980px){.peta4{grid-template-columns:minmax(0,1fr);gap:26px}.pkol:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-24px}}
+
 .daftar{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px}
 .daftar summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:14px}
 .daftar-isi{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;margin-top:10px}
@@ -238,6 +259,7 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 
 <div class="tirai" id="tirai"></div>
 <aside class="laci" id="laci" aria-hidden="true"><div class="laci-k"><div><b id="laciJ"></b><small id="laciS"></small></div><button id="laciT" aria-label="Tutup">×</button></div><div class="laci-i" id="laciI"></div></aside>
+<script src="api-url.js"></script>
 <script src="isi-regulasi.js"></script>
 <script src="data-uneka.js"></script>
 <script>
@@ -245,7 +267,7 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 "use strict";
 var D=null, KUNCI="simYEH.v1";
 /* Tempel URL Web App Apps Script di antara tanda kutip di bawah ini. */
-var API_URL="https://script.google.com/macros/s/AKfycbxF3612qdpONbMDlCtEQu8NM6CE9gRo6ByUcTajVZQ9_-g9XJ023P75buFPI_4IISaO/exec";
+var API_URL=window.API_URL_YEH||"";
 var ROSTER=null, PESAN_SHEET=API_URL?"Memuat daftar dari Sheet…":"Daftar dosen dan mahasiswa belum tersambung ke Sheet.";
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
@@ -316,7 +338,7 @@ function mulai(d){ setTimeout(ukurAtas,0); ROSTER=null; setTimeout(muatDaftar,0)
   D=d; $("layarMasuk").hidden=true; $("app").hidden=false;
   $("judulApp").innerHTML=esc(d.judul)+"<small>Pembaruan data "+esc(d.pembaruan)+"</small>";
   riwayat=[]; posisi=-1;
-  var st={p:d.prodi[0].id,s:"ringkas"}; catat(st); tampil(st);
+  var st={p:d.prodi[0].id,s:"peta"}; catat(st); tampil(st);
 }
 function pilih(st){ catat(st); tampil(st); }
 
@@ -331,7 +353,7 @@ var DRIVE=[[/^BA Monev/,"1Uhazvq6TzvrVKYJV-2VSkNBf5uXYOoI-"],[/^KepMen 229/,"1uT
 var PASAL=[[/^Ps 69 \(1\)/,["P7-69-1"]],[/^Ps 73 \(2\)/,["P7-73"]],[/^Ps 74 /,["P7-74"]],[/^Ps 75 /,["P7-75"]],[/^Ps 76 \([12]\)/,["P7-76"]],[/^Ps 72 \(3\)/,["P7-72-3"]],
  [/^Ps 71 /,["P7-71"]],[/^Ps 70 \(4\)/,["P39-70-4"]],[/^Ps 77 \(1\) Permen 10/,["P10-77-1"]],[/^Ps 77 \(4\) Permen 10/,["P10-77-ulang"]],[/^Ps 77 \(5\) Permen 10/,["P10-77-5"]],
  [/^Ps 77 \(6\) Permen 10/,["P10-77-6"]],[/^Ps 76 dan 77 \(1\) Permen 10/,["P10-76","P10-77-1"]],[/^Ps 77 .*Permen 7\/2020/,["P7-77"]],[/^Ps 27 \(1\)/,["P7-27-1"]],[/^Ps 27 \(2\)/,["P7-27-2"]],
- [/^Ps 114/,["P39-114"]],[/^Ps 15/,["PP35-15"]],[/PP 35\/2021/,["PP35-40"]]];
+ [/^Ps 114/,["P39-114"]],[/^Ps 83 /,["P39-83"]],[/^Ps 15/,["PP35-15"]],[/PP 35\/2021/,["PP35-40"]]];
 function rujuk(x,kelas){
   var i; for(i=0;i<DRIVE.length;i++) if(DRIVE[i][0].test(x)) return '<a class="rj drive '+(kelas||'')+'" href="https://drive.google.com/file/d/'+DRIVE[i][1]+'/view" target="_blank" rel="noopener" title="Buka PDF">'+esc(x)+'</a>';
   var I=window.ISI&&window.ISI.pasal;
@@ -355,7 +377,7 @@ function tampil(st){
   var P=D.prodi.filter(function(x){return x.id===st.p;})[0]||D.prodi[0];
   var h='<div class="kendali"><div><label for="pProdi">Program studi</label><select id="pProdi">'+
     D.prodi.map(function(x){return '<option value="'+x.id+'"'+(x.id===P.id?' selected':'')+'>'+esc(x.nama)+' ('+esc(x.jenjang)+')</option>';}).join("")+
-    '</select></div><div><label for="pSk">Tampilan</label><select id="pSk"><option value="ringkas">Ringkasan: kapan paling cepat ditutup</option>'+
+    '</select></div><div><label for="pSk">Tampilan</label><select id="pSk"><option value="peta"'+(st.s==="peta"?" selected":"")+'>Peta sebab-akibat bila keadaan berlanjut</option><option value="ringkas"'+(st.s==="ringkas"?" selected":"")+'>Ringkasan: kapan paling cepat ditutup</option>'+
     P.skenario.map(function(s){return '<option value="'+s.id+'"'+(s.id===st.s?' selected':'')+'>Skenario: '+esc(s.judul)+'</option>';}).join("")+
     '</select></div></div>';
 
@@ -364,7 +386,7 @@ function tampil(st){
     D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x),r=hitung(x);
       return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td>'+TK.map(function(k){return '<td class="a">'+(r?(r.tk[k]||"–"):esc(k===1?t.tk1:k===2?t.tk2:"–"))+'</td>';}).join("")+
         '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<5?'kurang '+(5-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+esc(t.akreditasi)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
-    '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc(D.catatanUmum)+' ':'')+'* Ada dosen tercatat yang dalam penggantian. Klik baris untuk memilih prodi.</div>';
+    '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc((ROSTER&&(ROSTER.instrumen||[]).length)?D.catatanUmum.replace(/\s*\(instrumen[^)]*\)\)?/,''):D.catatanUmum)+' ':'')+'* Ada dosen tercatat yang dalam penggantian. Klik baris untuk memilih prodi.</div>';
   h+=daftar(P);
 
   if(P.catatan&&P.catatan.length){
@@ -373,20 +395,92 @@ function tampil(st){
   }
 
   var S=P.skenario.filter(function(x){return x.id===st.s;})[0];
-  h+= S ? skenario(S) : ringkas(P);
+  h+= st.s==="peta" ? peta(P,st) : (S ? skenario(S) : ringkas(P));
   h+=dampak(P);
   h+='<div class="kaki"><b>Sumber data</b><ul>'+D.sumber.map(function(s){return '<li>'+esc(s)+'</li>';}).join("")+'</ul><b>Asumsi.</b> '+esc(D.asumsi)+'</div>';
 
   $("isi").innerHTML=h;
-  $("pProdi").addEventListener("change",function(){ pilih({p:this.value,s:"ringkas"}); });
+  $("pProdi").addEventListener("change",function(){ pilih({p:this.value,s:"peta"}); });
   $("pSk").addEventListener("change",function(){ pilih({p:P.id,s:this.value}); });
+  if($("pPola")) $("pPola").addEventListener("change",function(){ pilih({p:P.id,s:"peta",pola:this.value,kosong:st.kosong}); });
+  if($("pKosong")) $("pKosong").addEventListener("change",function(){ pilih({p:P.id,s:"peta",pola:"kosong",kosong:+this.value}); });
   Array.prototype.forEach.call(document.querySelectorAll("tr[data-prodi]"),function(el){
-    el.addEventListener("click",function(){ var v=el.getAttribute("data-prodi"); if(v!==P.id) pilih({p:v,s:"ringkas"}); });
+    el.addEventListener("click",function(){ var v=el.getAttribute("data-prodi"); if(v!==P.id) pilih({p:v,s:"peta"}); });
   });
   Array.prototype.forEach.call(document.querySelectorAll("[data-sk]"),function(el){
     el.addEventListener("click",function(){ pilih({p:P.id,s:el.getAttribute("data-sk")}); });
   });
   aturNav(); window.scrollTo(0,0);
+}
+
+/* ---------- peta sebab-akibat dan proyeksi ---------- */
+var LEMBAGA={kwu:"LAMEMBA",bki:"BAN-PT"};
+function ambang(k,def){ var a=(ROSTER&&ROSTER.ambang)||[]; for(var i=0;i<a.length;i++) if(String(a[i].kunci).trim()===k){ var n=parseFloat(String(a[i].nilai).replace(",",".")); if(!isNaN(n)) return n; } return def; }
+function warnaMhs(n,T,K){ return n>=T?"hijau":(n>=T*K/100?"kuning":"merah"); }
+function proyeksi(P,st){
+  var ang={}, M=(ROSTER.mahasiswa||[]).filter(function(m){return milik(m,P);});
+  M.forEach(function(m){ var a=+m.angkatan; if(a) ang[a]=(ang[a]||0)+1; });
+  var th=Object.keys(ang).map(Number).sort(); if(!th.length) return null;
+  var awal=th[0], kini=taKini(), batasTh=awal+2, akhir=Math.max(batasTh,kini), T=ambang("TARGET_MHS_BARU",10);
+  var terakhir=ang[Math.min(kini,th[th.length-1])]||0, baris=[];
+  for(var y=awal;y<=akhir;y++){
+    var nyata=y<=kini, n;
+    if(nyata) n=ang[y]||0;
+    else if(st.pola==="target") n=T;
+    else if(st.pola==="kosong" && (+st.kosong||kini+1)===y) n=0;
+    else n=terakhir;
+    baris.push({th:y,baru:n,nyata:nyata});
+  }
+  baris.forEach(function(b,i){ var s=0; for(var j=Math.max(0,i-3);j<=i;j++) s+=baris[j].baru; b.aktif=s; b.nilai=(b.th===batasTh); });
+  var w=baris.filter(function(b){return b.th>=batasTh-2&&b.th<=batasTh;}), turun=null;
+  if(w.length>=2&&w[0].baru>0) turun=Math.max(0,Math.round((w[0].baru-w[w.length-1].baru)/w[0].baru*100));
+  else if(w.length>=2) turun=(w[w.length-1].baru>0?0:100);
+  return {baris:baris,awal:awal,batasTh:batasTh,turun:turun,T:T,kini:kini};
+}
+function kotak(w,judul,nilai,ket,extra){ return '<div class="pk w-'+w+'"'+(extra||'')+'><b>'+esc(judul)+'</b>'+(nilai!==""?'<span class="pk-n">'+nilai+'</span>':'')+(ket?'<small>'+ket+'</small>':'')+'</div>'; }
+function peta(P,st){
+  var h='<h2>Peta sebab-akibat bila keadaan berlanjut</h2>';
+  if(!ROSTER) return h+'<div class="tbl-ket">'+esc(PESAN_SHEET)+' Peta memerlukan data dari Sheet.</div>';
+  var pr=proyeksi(P,st); if(!pr) return h+'<div class="tbl-ket">Belum ada data mahasiswa untuk prodi ini di Sheet.</div>';
+  var L=LEMBAGA[P.id]||"", T=pr.T, K=ambang("KUNING_MHS_PERSEN",50), MIN=ambang("MIN_DOSEN_TETAP",5);
+  var opsiKosong=[]; for(var y=pr.kini+1;y<=pr.batasTh;y++) opsiKosong.push(y);
+  var pola=st.pola||"sekarang", kos=st.kosong||opsiKosong[0];
+  h+='<div class="pola"><label>Pola penerimaan mahasiswa baru <select id="pPola"><option value="sekarang"'+(pola==="sekarang"?" selected":"")+'>Seperti sekarang</option>'+(opsiKosong.length?'<option value="kosong"'+(pola==="kosong"?" selected":"")+'>Ada tahun tanpa mahasiswa baru</option>':'')+'<option value="target"'+(pola==="target"?" selected":"")+'>Sesuai target ('+T+' per tahun)</option></select></label>'+
+    (pola==="kosong"?'<label>Tahun kosong <select id="pKosong">'+opsiKosong.map(function(y){return '<option'+(+kos===y?" selected":"")+'>'+y+'</option>';}).join("")+'</select></label>':'')+'</div>';
+  // proyeksi tahunan
+  h+='<div class="proy">'+pr.baris.map(function(b){ return '<div class="py w-'+warnaMhs(b.baru,T,K)+(b.nilai?' nilai':'')+'"><span class="py-t">'+b.th+(b.nyata?'':' <i>proyeksi</i>')+'</span><span class="py-n">'+b.baru+'</span><small>mhs baru · aktif '+b.aktif+'</small>'+(b.nilai?'<em>Batas ajukan akreditasi</em>':'')+'</div>'; }).join("")+'</div>';
+  // kolom 1
+  var bn=pr.baris.filter(function(b){return b.th===pr.batasTh;})[0]||pr.baris[pr.baris.length-1];
+  var r=hitung(P), dw=r.dosen<MIN?"merah":(r.ganti?"kuning":"hijau");
+  var batasTgl=new Date(pr.batasTh,8,1), sisa=Math.round((batasTgl-new Date())/(30.44*864e5));
+  var sw=sisa<=ambang("MERAH_BULAN_AKREDITASI",6)?"merah":(sisa<=ambang("KUNING_BULAN_AKREDITASI",12)?"kuning":"hijau");
+  var tw=pr.turun===null?"abu":(L==="BAN-PT"?(pr.turun>20?"merah":"hijau"):"abu");
+  var k1=kotak(warnaMhs(bn.baru,T,K),"Mahasiswa baru "+bn.th,bn.baru+" / "+T,"target Yayasan")+
+    kotak(tw,"Penurunan mahasiswa baru 3 tahun",pr.turun===null?"–":pr.turun+"%",L==="BAN-PT"?"batas ≤ 20% · perkiraan":"tidak ada ambang tertulis")+
+    kotak(dw,"Dosen tetap",r.dosen+(r.ganti?"*":"")+" / "+MIN,r.ganti?r.ganti+" dalam penggantian":"")+
+    kotak(sw,"Sisa waktu ke batas",sisa>0?sisa+" bln":"lewat","Sep "+pr.batasTh);
+  // kolom 2: syarat perlu status Terakreditasi
+  var ins=(ROSTER.instrumen||[]).filter(function(x){return x.lembaga===L&&/^terakreditasi$/i.test(x["target akreditasi"]||"")&&/^ya$/i.test(x["syarat perlu? (ya/tidak)"]||"");});
+  var bebas=(pr.batasTh-pr.awal)<2, k2="", lain=0, adaMerah=false, adaKuning=false;
+  ins.forEach(function(x){
+    var dt=x["data terkait"], w=null, ket="";
+    if(dt==="Mahasiswa"){ if(bebas&&x["pengecualian prodi baru"]){w="hijau";ket="dikecualikan: prodi < 2 tahun";} else {w=tw==="abu"?"kuning":tw; ket=(x["angka ambang"]||"")+(x["pengecualian prodi baru"]?" · dikecualikan bila diajukan sebelum genap 2 tahun beroperasi":"");} }
+    else if(dt==="Dosen" && /≥ ?5|lima|DPR/i.test((x["angka ambang"]||"")+x["isi singkat"])){ w=dw; ket=x["angka ambang"]||""; }
+    else if(/26-29/.test(x["kode butir"]||"")){ var mw=warnaMhs(bn.baru,T,K); w=mw==="hijau"?"abu":"kuning"; ket=(x["angka ambang"]||"")+" · daftar 29 indikator belum dimuat [VERIFIKASI]"+(mw==="hijau"?"":"; mahasiswa baru di bawah target kemungkinan ikut dinilai (tafsiran)"); }
+    if(w){ if(w==="merah")adaMerah=true; if(w==="kuning")adaKuning=true; k2+=kotak(w,(x["kode butir"]||"")+" · "+(x["isi singkat"]||"").slice(0,60)+((x["isi singkat"]||"").length>60?"…":""),"",esc(ket)); }
+    else lain++;
+  });
+  if(lain) k2+=kotak("abu",lain+" syarat perlu lain","", "dinilai dari bukti dokumen · <a href=\"index.html#instrumen\">lihat semua butir</a>");
+  if(!ins.length) k2=kotak("abu","Instrumen belum dimuat","","isi tab Instrumen di Sheet");
+  // kolom 3 dan 4
+  var hw=adaMerah?"merah":(adaKuning?"kuning":"hijau");
+  var k3=kotak(hw,adaMerah?"Berisiko tidak terakreditasi":(adaKuning?"Terakreditasi bila kekurangan dipenuhi":"Dapat terakreditasi"),"",adaMerah?"ada syarat perlu tidak terpenuhi":"selama bukti dokumen lengkap");
+  var k4=adaMerah?
+    kotak("kuning","Ajukan ulang ≤ 6 bulan","",rujuk("Ps 77 (4) Permen 10/2026"))+kotak("merah","Tetap gagal: izin dicabut","",rujuk("Ps 77 (5) Permen 10/2026")+" "+rujuk("Ps 77 (6) Permen 10/2026"))+kotak("merah","Ijazah tidak dapat terbit","",rujuk("Ps 70 (4) Permen 39/2025"))+kotak("merah","Yayasan menanggung kerugian","",rujuk("Ps 77 (3) huruf a Permen 7/2020"))
+    : kotak("hijau","Terakreditasi 5 tahun","","lalu akreditasi ulang")+kotak("abu","Tetap dipantau sewaktu-waktu","",rujuk("Ps 83 Permen 39/2025"));
+  h+='<div class="peta4"><div class="pkol"><h4>Kondisi saat penilaian</h4>'+k1+'</div><div class="pkol"><h4>Yang dinilai ('+esc(L)+', syarat perlu)</h4>'+k2+'</div><div class="pkol"><h4>Hasil</h4>'+k3+'</div><div class="pkol"><h4>Akibat</h4>'+k4+'</div></div>';
+  h+='<div class="tbl-ket">Proyeksi Yayasan, bukan ketentuan aturan. Asumsi: tidak ada mahasiswa keluar, penerimaan tiap September, penurunan dihitung dari 3 tahun terakhir (rumus resmi tidak tercantum di rubrik [VERIFIKASI]). Mahasiswa sedikit juga membuat data PDDikti terlihat lemah oleh calon mahasiswa, sehingga penerimaan berikutnya makin sulit (tafsiran).</div>';
+  return h;
 }
 
 function ringkas(P){
