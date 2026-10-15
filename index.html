@@ -350,6 +350,36 @@ a{color:var(--navy)}
 </style>
 </head>
 <body>
+<div id="gerbang" style="position:fixed;inset:0;z-index:999;background:#002855;display:grid;place-items:center;padding:16px">
+  <form id="gForm" autocomplete="off" style="width:100%;max-width:360px;background:#fff;border-radius:18px;padding:28px 24px;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><img src="logo-yeh.png" alt="" style="width:46px;height:46px"><div><b style="display:block;color:#002855">Yayasan Eka Harap</b><span style="font-size:13px;color:#5D6879">Alur Program Studi</span></div></div>
+    <label style="display:block;font-size:13px;font-weight:600;color:#002855;margin:10px 0 6px">Nama pengguna</label>
+    <input id="gNama" required style="width:100%;padding:10px 12px;border:1px solid #C9D6E6;border-radius:10px;font:inherit">
+    <label style="display:block;font-size:13px;font-weight:600;color:#002855;margin:10px 0 6px">Sandi</label>
+    <input id="gSandi" type="password" required style="width:100%;padding:10px 12px;border:1px solid #C9D6E6;border-radius:10px;font:inherit">
+    <button id="gTombol" type="submit" style="width:100%;margin-top:16px;padding:11px;border-radius:10px;background:#002855;color:#fff;font-weight:600">Masuk</button>
+    <div id="gPesan" style="min-height:20px;margin-top:10px;font-size:13px;color:#B5174F;text-align:center"></div>
+  </form>
+</div>
+<script src="data-uneka.js"></script>
+<script>
+(function(){
+  var K="simYEH.v1", g=document.getElementById("gerbang");
+  function b64(x){var b=atob(x),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+  function cek(n,s){var X=window.DATA_UNEKA;if(!X||!window.crypto||!crypto.subtle)return Promise.reject(new Error("Berkas data-uneka.js tidak ditemukan."));
+    return crypto.subtle.importKey("raw",new TextEncoder().encode(n.trim().toLowerCase()+"\n"+s),"PBKDF2",false,["deriveKey"])
+    .then(function(b){return crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(X.s),iterations:X.it,hash:"SHA-256"},b,{name:"AES-GCM",length:256},false,["decrypt"]);})
+    .then(function(k){return crypto.subtle.decrypt({name:"AES-GCM",iv:b64(X.i)},k,b64(X.c));});}
+  function lolos(){g.style.display="none";}
+  try{var a=JSON.parse(sessionStorage.getItem(K)||"null"); if(a){ g.style.visibility="hidden"; cek(a[0],a[1]).then(lolos).catch(function(){g.style.visibility="";}); }}catch(e){}
+  document.getElementById("gForm").addEventListener("submit",function(e){
+    e.preventDefault(); var n=document.getElementById("gNama").value, s=document.getElementById("gSandi").value, p=document.getElementById("gPesan");
+    p.textContent="Memeriksa…";
+    cek(n,s).then(function(){ try{sessionStorage.setItem(K,JSON.stringify([n,s]));}catch(x){} lolos(); })
+    .catch(function(err){ p.textContent=(err&&err.name==="OperationError")?"Nama pengguna atau sandi salah.":err.message; });
+  });
+})();
+</script>
 <div class="app" id="app">
   <aside class="sidebar" id="sidebar">
     <div class="brand"><img src="logo-yeh.png" alt="Logo Yayasan Eka Harap"><div class="brand-teks"><b id="org"></b><span id="judulApp"></span></div><button class="lipat" id="lipat" title="Lipat menu" aria-label="Lipat menu"></button></div>

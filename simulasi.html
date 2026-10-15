@@ -233,7 +233,7 @@ $("fMasuk").addEventListener("submit",function(e){
   .catch(function(err){ $("salah").textContent=(err&&err.name==="OperationError")?"Nama pengguna atau sandi salah.":(err.message||"Gagal membuka data."); })
   .then(function(){ $("bMasuk").disabled=false; });
 });
-$("keluar").addEventListener("click",function(){ ss(KUNCI,null); D=null; $("isi").innerHTML=""; $("app").hidden=true; $("layarMasuk").hidden=false; $("sandi").value=""; $("salah").textContent=""; });
+$("keluar").addEventListener("click",function(){ ss(KUNCI,null); location.href="index.html"; return; D=null; $("isi").innerHTML=""; $("app").hidden=true; $("layarMasuk").hidden=false; $("sandi").value=""; $("salah").textContent=""; });
 
 /* ---------- riwayat (tombol kembali/maju) ---------- */
 var riwayat=[], posisi=-1;
