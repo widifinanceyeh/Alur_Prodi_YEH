@@ -56,7 +56,7 @@ button{background:none;border:0;cursor:pointer;padding:0}
 .keluar{margin-left:auto;display:flex;gap:6px;padding:0 12px;font-size:13px;font-weight:600}
 .isi{max-width:1200px;margin:0 auto;padding:18px 24px 40px}
 
-.kendali{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kendali{position:sticky;top:var(--tinggi-atas,54px);z-index:15;box-shadow:0 8px 18px -10px rgba(0,40,85,.25);display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .kendali label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .kendali select{width:100%;padding:9px 36px 9px 12px;border:1px solid var(--navy-line);border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23002855' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;-webkit-appearance:none;font-weight:600;color:var(--navy);cursor:pointer}
 
@@ -84,6 +84,20 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 .dasar{display:flex;flex-wrap:wrap;gap:6px}
 .dasar span{font-size:11.5px;font-weight:600;color:var(--navy);background:var(--navy-soft);border-radius:999px;padding:2px 9px}
 .dasar span.v{background:#FFF4D6;color:#7A5300}
+.rj{cursor:pointer;text-decoration:none;border:0;font:inherit}
+.dasar .rj{font-size:11.5px;font-weight:600;color:var(--navy);background:var(--navy-soft);border-radius:999px;padding:2px 9px;display:inline-flex;gap:4px;align-items:center}
+.rj:hover{outline:2px solid var(--pink)}
+.gt.t-cabut .dasar .rj{background:rgba(255,255,255,.16);color:#fff}
+.rj.drive:after{content:"↗";font-size:10px}
+.tirai{position:fixed;inset:0;background:rgba(0,20,45,.45);z-index:40;display:none}
+.laci{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:#fff;z-index:41;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.2)}
+.laci.buka{transform:none}.tirai.buka{display:block}
+.laci-k{background:var(--navy);color:#fff;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.laci-k b{display:block;font-size:15px}.laci-k small{color:var(--pink);font-size:12px}
+.laci-k button{margin-left:auto;color:#fff;font-size:22px;line-height:1}
+.laci-i{padding:14px 16px;overflow:auto;font-size:14px}
+.laci-i .ps{margin-bottom:14px}.laci-i h4{margin:0 0 4px;color:var(--navy);font-size:14px}
+.laci-i p{margin:0;line-height:1.6}.laci-i .rk{font-size:12px;color:#7A5300;background:#FFF4D6;border-radius:8px;padding:6px 8px;margin-top:6px}
 
 /* ringkasan skenario */
 .grafik{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
@@ -205,6 +219,9 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
   <main class="isi" id="isi"></main>
 </div>
 
+<div class="tirai" id="tirai"></div>
+<aside class="laci" id="laci" aria-hidden="true"><div class="laci-k"><div><b id="laciJ"></b><small id="laciS"></small></div><button id="laciT" aria-label="Tutup">×</button></div><div class="laci-i" id="laciI"></div></aside>
+<script src="isi-regulasi.js"></script>
 <script src="data-uneka.js"></script>
 <script>
 (function(){
@@ -246,7 +263,10 @@ document.addEventListener("keydown",function(e){
   if(e.key==="ArrowLeft") $("mundur").click(); if(e.key==="ArrowRight") $("maju").click();
 });
 
-function mulai(d){
+$("tirai").addEventListener("click",tutupPs); $("laciT").addEventListener("click",tutupPs);
+function ukurAtas(){ var a=document.querySelector(".atas"); if(a&&a.offsetHeight) document.documentElement.style.setProperty("--tinggi-atas",a.offsetHeight+"px"); }
+window.addEventListener("resize",ukurAtas);
+function mulai(d){ setTimeout(ukurAtas,0);
   D=d; $("layarMasuk").hidden=true; $("app").hidden=false;
   $("judulApp").innerHTML=esc(d.judul)+"<small>Pembaruan data "+esc(d.pembaruan)+"</small>";
   riwayat=[]; posisi=-1;
@@ -261,7 +281,26 @@ function pos(m){return Math.max(0,Math.min(100,(m-AW)/(AK-AW)*100));}
 function kini(){var d=new Date();return d.getFullYear()*12+d.getMonth();}
 var BLN=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
 
-function dasar(arr){ return arr&&arr.length?'<div class="dasar">'+arr.map(function(x){return '<span'+(/VERIFIKASI/.test(x)?' class="v"':'')+'>'+esc(x)+'</span>';}).join("")+'</div>':''; }
+var DRIVE=[[/^BA Monev/,"1Uhazvq6TzvrVKYJV-2VSkNBf5uXYOoI-"],[/^KepMen 229/,"1uTnHCZgeULmo9EteLSpDM39yOEg51uXo"],[/^SK LAMEMBA/,"1yEGY6sang8gOh0mcKnpRE00JNbW1aU-o"]];
+var PASAL=[[/^Ps 69 \(1\)/,["P7-69-1"]],[/^Ps 73 \(2\)/,["P7-73"]],[/^Ps 74 /,["P7-74"]],[/^Ps 75 /,["P7-75"]],[/^Ps 76 \([12]\)/,["P7-76"]],[/^Ps 72 \(3\)/,["P7-72-3"]],
+ [/^Ps 71 /,["P7-71"]],[/^Ps 70 \(4\)/,["P39-70-4"]],[/^Ps 77 \(1\) Permen 10/,["P10-77-1"]],[/^Ps 77 \(4\) Permen 10/,["P10-77-ulang"]],[/^Ps 77 \(5\) Permen 10/,["P10-77-5"]],
+ [/^Ps 77 \(6\) Permen 10/,["P10-77-6"]],[/^Ps 76 dan 77 \(1\) Permen 10/,["P10-76","P10-77-1"]],[/^Ps 77 .*Permen 7\/2020/,["P7-77"]],[/^Ps 27 \(1\)/,["P7-27-1"]],[/^Ps 27 \(2\)/,["P7-27-2"]],
+ [/^Ps 114/,["P39-114"]],[/^Ps 15/,["PP35-15"]],[/PP 35\/2021/,["PP35-40"]]];
+function rujuk(x,kelas){
+  var i; for(i=0;i<DRIVE.length;i++) if(DRIVE[i][0].test(x)) return '<a class="rj drive '+(kelas||'')+'" href="https://drive.google.com/file/d/'+DRIVE[i][1]+'/view" target="_blank" rel="noopener" title="Buka PDF">'+esc(x)+'</a>';
+  var I=window.ISI&&window.ISI.pasal;
+  if(I) for(i=0;i<PASAL.length;i++) if(PASAL[i][0].test(x)&&I[PASAL[i][1][0]]) return '<button class="rj '+(kelas||'')+'" data-ps="'+PASAL[i][1].join(",")+'" data-lb="'+esc(x)+'" title="Baca bunyi pasal">'+esc(x)+'</button>';
+  return '<span class="'+(/VERIFIKASI/.test(x)?'v ':'')+(kelas||'')+'">'+esc(x)+'</span>';
+}
+function dasar(arr){ return arr&&arr.length?'<div class="dasar">'+arr.map(function(x){return rujuk(x);}).join("")+'</div>':''; }
+function bukaPs(keys,lb){
+  var I=window.ISI; $("laciJ").textContent=lb; var r=I.regulasi[I.pasal[keys[0]].reg]||{}; $("laciS").textContent=r.singkat||"";
+  $("laciI").innerHTML=keys.map(function(k){var p=I.pasal[k],g=I.regulasi[p.reg]||{};return '<div class="ps"><h4>'+esc(p.label)+' '+esc(g.singkat||"")+'</h4><p>'+esc(p.bunyi)+'</p>'+(p.status==="ringkasan"?'<div class="rk">Ringkasan, bunyi resmi menyusul.</div>':'')+'</div>';}).join("");
+  $("laci").classList.add("buka"); $("tirai").classList.add("buka");
+}
+function tutupPs(){ $("laci").classList.remove("buka"); $("tirai").classList.remove("buka"); }
+document.addEventListener("click",function(e){ var t=e.target.closest&&e.target.closest("[data-ps]"); if(t){ e.stopPropagation(); bukaPs(t.getAttribute("data-ps").split(","),t.getAttribute("data-lb")); } });
+document.addEventListener("keydown",function(e){ if(e.key==="Escape") tutupPs(); });
 function ik(n){var P={info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'};return '<svg class="ic" viewBox="0 0 24 24">'+P[n]+'</svg>';}
 
 /* ---------- tampil ---------- */
@@ -328,7 +367,7 @@ function dampak(P){
   var h='<h2>Dampak bila prodi ditutup</h2><p class="sub">Tanpa angka rupiah. Besaran mengikuti data keuangan dan kepegawaian masing-masing.</p><div class="dampak">';
   D.dampak.forEach(function(d){
     var j=d.hitung?P.dampak[d.hitung]:null;
-    var li=function(x){return '<li>'+esc(x.t)+' <span class="tg '+x.jenis+'">'+(x.jenis==="aturan"?(x.dasar?esc(x.dasar):"Dasar aturan"):"Tafsiran")+'</span></li>';};
+    var li=function(x){return '<li>'+esc(x.t)+' '+(x.jenis==="aturan"&&x.dasar?rujuk(x.dasar,'tg aturan'):'<span class="tg '+x.jenis+'">'+(x.jenis==="aturan"?"Dasar aturan":"Tafsiran")+'</span>')+'</li>';};
     h+='<div class="dp"><div class="dp-kepala"><h3>'+esc(d.judul)+'</h3>'+(j?'<span class="jml">'+esc(j)+'<small>'+esc(d.satuan)+'</small></span>':'')+'</div>'+
       '<h4>Kewajiban</h4><ul>'+d.kewajiban.map(li).join("")+'</ul><h4>Jenis biaya</h4><ul>'+d.biaya.map(li).join("")+'</ul></div>';
   });

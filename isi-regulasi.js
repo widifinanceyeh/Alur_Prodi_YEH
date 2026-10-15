@@ -39,6 +39,12 @@ window.ISI = {
       status: "Berlaku sejak 16 Juli 2026",
       sumber: "https://lpm.unand.ac.id/wp-content/uploads/2026/07/Permendiktisaintek-10-2026-terhadap-39-2025.pdf",
       catatan: "Bunyi pasal dikutip dari rangkuman regulasi Yayasan (tab Penjaminan Mutu PT)."
+    },
+    PP35: {
+      nama: "Peraturan Pemerintah Nomor 35 Tahun 2021 tentang Perjanjian Kerja Waktu Tertentu, Alih Daya, Waktu Kerja dan Waktu Istirahat, dan Pemutusan Hubungan Kerja",
+      singkat: "PP 35/2021",
+      status: "Berlaku",
+      catatan: "Dirujuk di halaman Simulasi UNEKA. Bunyi pasal dikutip dari rangkuman regulasi Yayasan (tab PKWT & PHK)."
     }
   },
 
@@ -175,6 +181,10 @@ window.ISI = {
       bunyi: "Dalam hal BAN-PT atau LAM menilai perguruan tinggi atau program studi yang mengajukan permohonan Akreditasi sebagaimana dimaksud pada ayat (1) tidak memenuhi SN Dikti, perguruan tinggi atau program studi diberikan kesempatan 1 (satu) kali untuk mengajukan kembali permohonan Akreditasi kepada BAN-PT atau LAM paling lambat 6 (enam) bulan terhitung sejak dinyatakan tidak memenuhi SN Dikti." },
     "P10-77-5": { reg: "P10", label: "Pasal 77 ayat (5)", status: "kutipan",
       bunyi: "Dalam hal BAN-PT atau LAM menilai perguruan tinggi atau program studi yang mengajukan kembali permohonan Akreditasi sebagaimana dimaksud pada ayat (4) tidak memenuhi SN Dikti, BAN-PT atau LAM sesuai dengan kewenangannya menetapkan status tidak terakreditasi." },
+    "PP35-15": { reg: "PP35", label: "Pasal 15 ayat (1)–(3) dan Pasal 17", status: "kutipan",
+      bunyi: "Pasal 15: (1) Pengusaha wajib memberikan uang kompensasi kepada Pekerja/Buruh yang hubungan kerjanya berdasarkan PKWT. (2) Pemberian uang kompensasi dilaksanakan pada saat berakhirnya PKWT. (3) Uang kompensasi sebagaimana dimaksud pada ayat (1) diberikan kepada Pekerja/Buruh yang telah mempunyai masa kerja paling sedikit 1 (satu) bulan secara terus menerus. Pasal 17: Dalam hal salah satu pihak mengakhiri Hubungan Kerja sebelum berakhirnya jangka waktu yang ditetapkan dalam PKWT, Pengusaha wajib memberikan uang kompensasi sebagaimana dimaksud dalam Pasal 15 ayat (1) yang besarannya dihitung berdasarkan jangka waktu PKWT yang telah dilaksanakan oleh Pekerja/Buruh." },
+    "PP35-40": { reg: "PP35", label: "Pasal 40 ayat (1) dan (4)", status: "kutipan",
+      bunyi: "(1) Dalam hal terjadi Pemutusan Hubungan Kerja, Pengusaha wajib membayar uang pesangon dan/atau uang penghargaan masa kerja, dan uang penggantian hak yang seharusnya diterima. (4) Uang penggantian hak yang seharusnya diterima sebagaimana dimaksud pada ayat (1) meliputi: a. cuti tahunan yang belum diambil dan belum gugur; b. biaya atau ongkos pulang untuk Pekerja/Buruh dan keluarganya ke tempat dimana Pekerja/Buruh diterima bekerja; dan c. hal-hal lain yang ditetapkan dalam Perjanjian Kerja, Peraturan Perusahaan, atau Perjanjian Kerja Bersama." },
     "P10-77-6": { reg: "P10", label: "Pasal 77 ayat (6)", status: "kutipan",
       bunyi: "Berdasarkan penetapan status tidak terakreditasi oleh BAN-PT atau LAM sebagaimana dimaksud pada ayat (5), Menteri mencabut izin pendirian perguruan tinggi dan/atau izin program studi. (Ayat (7) lama dihapus.)" }
   },
