@@ -604,6 +604,7 @@ document.getElementById("maju").innerHTML=ic("panah");
 ["mundur","maju"].forEach(function(i){ document.getElementById(i).addEventListener("click",function(){ var t=this.getAttribute("data-tuju"); if(t) ke(t); }); });
 document.getElementById("lTutup").innerHTML=ic("tutup");
 document.getElementById("nav").innerHTML=ISI.halaman.map(function(h){ return '<button data-ke="'+esc(h.id)+'" title="'+esc(h.menu||h.judul)+'">'+ic(h.ikon)+'<span>'+esc(h.menu||h.judul)+'</span></button>'; }).join("");
+document.getElementById("nav").insertAdjacentHTML("beforeend",'<button onclick="location.href=\'simulasi.html\'" title="Simulasi UNEKA" style="margin-top:14px">'+ic("kelola")+'<span>Simulasi UNEKA</span></button>');
 if(baca("ciut")==="1" && window.innerWidth>900) app.classList.add("ciut");
 
 document.addEventListener("click",function(e){
