@@ -38,7 +38,7 @@ window.ISI = {
       singkat: "Permen 10/2026",
       status: "Berlaku sejak 16 Juli 2026",
       sumber: "https://lpm.unand.ac.id/wp-content/uploads/2026/07/Permendiktisaintek-10-2026-terhadap-39-2025.pdf",
-      catatan: "Bunyi resmi belum dimuat. Isi diambil dari ringkasan perbandingan."
+      catatan: "Bunyi pasal dikutip dari rangkuman regulasi Yayasan (tab Penjaminan Mutu PT)."
     }
   },
 
@@ -125,16 +125,8 @@ window.ISI = {
       bunyi: "Program studi sebagaimana dimaksud pada ayat (2) wajib memiliki status terakreditasi pertama, terakreditasi, atau terakreditasi unggul untuk meluluskan mahasiswa dan menerbitkan ijazah." },
     "P39-74": { reg: "P39", label: "Pasal 74 ayat (4) dan (7)", status: "kutipan",
       bunyi: "(4) Status Akreditasi sebagaimana dimaksud pada ayat (3) terdiri atas: a. terakreditasi; b. terakreditasi unggul; atau c. tidak terakreditasi. (7) Status tidak terakreditasi sebagaimana dimaksud pada ayat (4) huruf c menunjukkan program studi tidak memenuhi atau berada di bawah SN Dikti." },
-    "P39-76": { reg: "P39", label: "Pasal 76 ayat (1)–(3)", status: "kutipan",
-      bunyi: "(1) Program studi baru atau perguruan tinggi baru mendapatkan status terakreditasi pertama pada saat memperoleh izin penyelenggaraan atau izin pendirian dari Menteri. (2) Status terakreditasi pertama sebagaimana dimaksud pada ayat (1) diberikan setelah program studi baru atau perguruan tinggi baru memenuhi syarat minimum Akreditasi. (3) Syarat minimum Akreditasi untuk program studi baru sebagaimana dimaksud pada ayat (2) terdiri atas kriteria minimum mengenai: a. kurikulum; b. rencana pembelajaran; c. dosen dan tenaga kependidikan; dan d. sarana dan prasarana." },
-    "P39-77-1": { reg: "P39", label: "Pasal 77 ayat (1)", status: "kutipan",
-      bunyi: "Perguruan tinggi dan program studi dengan status terakreditasi pertama wajib mengajukan permohonan Akreditasi kepada BAN-PT atau LAM sesuai dengan kewenangannya untuk memperoleh status terakreditasi atau terakreditasi unggul paling lambat 2 (dua) tahun setelah beroperasi." },
     "P39-77-3": { reg: "P39", label: "Pasal 77 ayat (3)", status: "kutipan",
       bunyi: "Status terakreditasi dari BAN-PT atau LAM sebagaimana dimaksud pada ayat (2) diberikan untuk masa berlaku selama: a. 5 (lima) tahun untuk program studi; atau b. 8 (delapan) tahun untuk perguruan tinggi." },
-    "P39-77-6": { reg: "P39", label: "Pasal 77 ayat (6)", status: "kutipan",
-      bunyi: "Dalam hal BAN-PT atau LAM menilai perguruan tinggi atau program studi yang mengajukan permohonan Akreditasi sebagaimana dimaksud pada ayat (1) tidak memenuhi SN Dikti, BAN-PT atau LAM sesuai dengan kewenangannya menetapkan status tidak terakreditasi." },
-    "P39-77-7": { reg: "P39", label: "Pasal 77 ayat (7)", status: "kutipan",
-      bunyi: "Berdasarkan penetapan status tidak terakreditasi oleh BAN-PT atau LAM sebagaimana dimaksud pada ayat (6), Menteri mencabut izin pendirian perguruan tinggi dan/atau izin program studi." },
     "P39-80-1": { reg: "P39", label: "Pasal 80 ayat (1)", status: "kutipan",
       bunyi: "Perguruan tinggi dapat mengajukan keberatan terhadap penetapan status Akreditasi program studi dan/atau perguruan tinggi kepada BAN-PT atau LAM sesuai dengan kewenangannya." },
     "P39-83": { reg: "P39", label: "Pasal 83 ayat (1)–(2)", status: "kutipan",
@@ -173,12 +165,18 @@ window.ISI = {
     "P39-116": { reg: "P39", label: "Pasal 116 huruf a", status: "kutipan",
       bunyi: "Pada saat Peraturan Menteri ini mulai berlaku: a. pengelolaan dan penyelenggaraan perguruan tinggi wajib menyesuaikan dengan Peraturan Menteri ini paling lama 2 (dua) tahun sejak Peraturan Menteri ini diundangkan;" },
 
-    "P10-76": { reg: "P10", label: "Perubahan Pasal 76", status: "ringkasan",
-      bunyi: "Status terakreditasi pertama diperoleh pada saat mendapat izin yang diperoleh sesuai ketentuan peraturan perundang-undangan (sebelumnya: izin penyelenggaraan atau pendirian dari Menteri)." },
-    "P10-77-1": { reg: "P10", label: "Perubahan Pasal 77 ayat (1)", status: "ringkasan",
-      bunyi: "Pengajuan Akreditasi oleh program studi berstatus terakreditasi pertama dilakukan paling lambat 2 (dua) tahun setelah menerima mahasiswa baru untuk pertama kali (sebelumnya: 2 tahun setelah beroperasi)." },
-    "P10-77-ulang": { reg: "P10", label: "Perubahan Pasal 77", status: "ringkasan",
-      bunyi: "Program studi yang dinilai tidak memenuhi SN Dikti diberi satu kesempatan mengajukan kembali paling lambat 6 (enam) bulan. Status tidak terakreditasi ditetapkan apabila pengajuan ulang juga tidak memenuhi." }
+    "P10-76": { reg: "P10", label: "Pasal 76 ayat (1)–(3)", status: "kutipan",
+      bunyi: "(1) Program studi baru atau perguruan tinggi baru mendapatkan status terakreditasi pertama pada saat memperoleh izin penyelenggaraan atau izin pendirian sesuai dengan ketentuan perundang-undangan. (2) Status terakreditasi pertama sebagaimana dimaksud pada ayat (1) diberikan setelah program studi baru atau perguruan tinggi baru memenuhi syarat minimum Akreditasi. (3) Syarat minimum Akreditasi untuk program studi baru sebagaimana dimaksud pada ayat (2) terdiri atas kriteria minimum mengenai: a. kurikulum; b. rencana pembelajaran; c. dosen dan tenaga kependidikan; dan d. sarana dan prasarana." },
+    "P10-76-5": { reg: "P10", label: "Pasal 76 ayat (5)", status: "kutipan",
+      bunyi: "BAN-PT atau LAM sesuai kewenangannya menetapkan masa berlaku status terakreditasi pertama sebagaimana dimaksud pada ayat (1)." },
+    "P10-77-1": { reg: "P10", label: "Pasal 77 ayat (1)", status: "kutipan",
+      bunyi: "Perguruan tinggi dan program studi dengan status terakreditasi pertama wajib mengajukan permohonan Akreditasi kepada BAN-PT atau LAM sesuai dengan kewenangannya untuk memperoleh status terakreditasi paling lambat 2 (dua) tahun setelah menerima Mahasiswa baru untuk pertama kalinya." },
+    "P10-77-ulang": { reg: "P10", label: "Pasal 77 ayat (4)", status: "kutipan",
+      bunyi: "Dalam hal BAN-PT atau LAM menilai perguruan tinggi atau program studi yang mengajukan permohonan Akreditasi sebagaimana dimaksud pada ayat (1) tidak memenuhi SN Dikti, perguruan tinggi atau program studi diberikan kesempatan 1 (satu) kali untuk mengajukan kembali permohonan Akreditasi kepada BAN-PT atau LAM paling lambat 6 (enam) bulan terhitung sejak dinyatakan tidak memenuhi SN Dikti." },
+    "P10-77-5": { reg: "P10", label: "Pasal 77 ayat (5)", status: "kutipan",
+      bunyi: "Dalam hal BAN-PT atau LAM menilai perguruan tinggi atau program studi yang mengajukan kembali permohonan Akreditasi sebagaimana dimaksud pada ayat (4) tidak memenuhi SN Dikti, BAN-PT atau LAM sesuai dengan kewenangannya menetapkan status tidak terakreditasi." },
+    "P10-77-6": { reg: "P10", label: "Pasal 77 ayat (6)", status: "kutipan",
+      bunyi: "Berdasarkan penetapan status tidak terakreditasi oleh BAN-PT atau LAM sebagaimana dimaksud pada ayat (5), Menteri mencabut izin pendirian perguruan tinggi dan/atau izin program studi. (Ayat (7) lama dihapus.)" }
   },
 
   /* ---------- HALAMAN ----------
@@ -193,15 +191,15 @@ window.ISI = {
         { tipe: "peta",
           langkah: [
             { judul: "Usul pembukaan", ket: "Menambah prodi baru pada perguruan tinggi yang sudah berizin", pasal: ["P7-22", "P7-23-1"] },
-            { judul: "Izin Menteri", ket: "Prodi langsung berstatus terakreditasi pertama", pasal: ["UU12-33-3", "P39-76"] },
-            { judul: "Wajib akreditasi", ket: "Paling lambat 2 tahun sejak menerima mahasiswa baru pertama", pasal: ["P39-77-1", "P10-77-1"] },
+            { judul: "Izin Menteri", ket: "Prodi langsung berstatus terakreditasi pertama", pasal: ["UU12-33-3", "P10-76"] },
+            { judul: "Wajib akreditasi", ket: "Paling lambat 2 tahun sejak menerima mahasiswa baru pertama", pasal: ["P10-77-1"] },
             { judul: "Terakreditasi", ket: "Berlaku 5 tahun, lalu wajib diakreditasi ulang", pasal: ["P39-77-3", "UU12-33-6"] }
           ],
           ulang: "Akreditasi ulang setiap masa berlaku habis",
           cabang: {
             judul: "Prodi dapat ditutup melalui dua jalur: langsung (3 penyebab) dan bertahap (1 penyebab)",
             item: [
-              { judul: "Ditutup langsung", ket: "Kebijakan pemerintah berubah, prodi tidak terakreditasi, atau tidak mengajukan akreditasi", pasal: ["P7-27-1", "P39-77-7"], ke: "penyebab", tingkat: "berat" },
+              { judul: "Ditutup langsung", ket: "Kebijakan pemerintah berubah, prodi tidak terakreditasi, atau tidak mengajukan akreditasi", pasal: ["P7-27-1", "P10-77-6"], ke: "penyebab", tingkat: "berat" },
               { judul: "Ditutup bertahap", ket: "Pelanggaran tidak diperbaiki setelah ditegur, sampai sanksi berat", pasal: ["P7-72-3"], ke: "penyebab", tingkat: "cabut" }
             ]
           }
@@ -222,13 +220,13 @@ window.ISI = {
         { tipe: "langkah",
           item: [
             { judul: "Penuhi syarat minimum akreditasi", isi: "Empat hal yang dinilai untuk prodi baru:",
-              poin: ["Kurikulum", "Rencana pembelajaran", "Dosen dan tenaga kependidikan", "Sarana dan prasarana"], pasal: ["P39-76"] },
+              poin: ["Kurikulum", "Rencana pembelajaran", "Dosen dan tenaga kependidikan", "Sarana dan prasarana"], pasal: ["P10-76"] },
             { judul: "Penuhi syarat jenjang", isi: "Untuk jenjang di atas sarjana, prodi sebidang di bawahnya harus sudah terakreditasi minimal Baik Sekali:",
               poin: ["Magister: prodi sarjana sebidang", "Doktor: prodi magister sebidang", "Profesi: prodi sarjana sebidang"], pasal: ["P7-4-5", "P7-4-7", "P7-4-9"] },
             { judul: "Ajukan usul pembukaan", isi: "Pembukaan prodi di kampus utama adalah penambahan jumlah prodi pada perguruan tinggi yang sudah berizin.",
               pasal: ["P7-22", "P7-23-1"], menyusul: "Rincian dokumen dan prosedur teknis mengikuti pedoman Direktur Jenderal (belum dimuat)." },
             { judul: "Izin Menteri terbit", isi: "Prodi diselenggarakan atas izin Menteri dan saat itu juga memperoleh status terakreditasi pertama.",
-              pasal: ["UU12-33-3", "UU12-33-5", "P39-76", "P10-76"], tingkat: "aksen" }
+              pasal: ["UU12-33-3", "UU12-33-5", "P10-76"], tingkat: "aksen" }
           ],
           akhir: { judul: "Sesudah izin terbit", isi: "Prodi wajib memenuhi syarat dan tidak boleh lengah. Lihat apa saja yang dapat membuat prodi ditutup.", ke: "penyebab" }
         }
@@ -247,7 +245,7 @@ window.ISI = {
             { judul: "Dinyatakan tidak terakreditasi", jenis: "langsung", label: "Langsung, tanpa tahapan sanksi", tingkat: "berat",
               pemicu: "Saat dinilai BAN-PT atau LAM (lembaga akreditasi), prodi tidak memenuhi SN Dikti (standar minimum nasional).",
               contoh: ["Akreditasi diajukan", "Dosen atau kurikulum di bawah standar", "Ajukan ulang maks. 6 bulan, tetap gagal", "Izin dicabut Menteri"],
-              pasal: ["P39-77-6", "P39-77-7", "P10-77-ulang"], ke: "akreditasi" },
+              pasal: ["P10-77-ulang", "P10-77-5", "P10-77-6"], ke: "akreditasi" },
             { judul: "Tidak mengajukan akreditasi", jenis: "langsung", label: "Langsung", tingkat: "berat",
               pemicu: "Masa akreditasi habis, tetapi prodi tidak mengajukan akreditasi ulang.",
               contoh: ["Masa akreditasi 5 tahun habis", "Akreditasi ulang tidak diajukan", "Izin dapat dicabut Menteri"],
@@ -261,6 +259,13 @@ window.ISI = {
           akhir: { judul: "Prodi ditutup", ket: "Ditetapkan Menteri. Akibat yang harus ditanggung:",
             akibat: ["Dilarang menyelenggarakan kegiatan akademik dan non-akademik", "Wajib diumumkan di media massa nasional", "Yayasan menanggung seluruh kerugian mahasiswa, dosen, dan karyawan", "Dosen PNS yang dipekerjakan dikembalikan"],
             pasal: ["P7-27-2", "P7-77"] }
+        },
+        { tipe: "kartu", judul: "Di luar empat penyebab: penutupan atas usul Yayasan",
+          item: [
+            { ikon: "dokumen", judul: "1. Yayasan mengusulkan", isi: "Yayasan sebagai Badan Penyelenggara dapat mengusulkan penutupan prodi. Aturan tidak membatasi alasannya.", pasal: ["P7-27-1"], tingkat: "normal" },
+            { ikon: "kelola", judul: "2. Pertimbangan senat", isi: "Usul diajukan setelah mendapat pertimbangan senat perguruan tinggi.", pasal: ["P7-27-1"], tingkat: "normal" },
+            { ikon: "cabut", judul: "3. Ditetapkan Menteri", isi: "Penutupan berlaku setelah ditetapkan Menteri. Rincian syarat dan prosedur mengikuti pedoman Direktur Jenderal (belum dimuat).", pasal: ["P7-27-2"], tingkat: "berat" }
+          ]
         }
       ]
     },
@@ -270,11 +275,11 @@ window.ISI = {
       blok: [
         { tipe: "garis", judul: "Garis waktu akreditasi prodi",
           item: [
-            { waktu: "Saat izin terbit", judul: "Terakreditasi pertama", ket: "Diberikan bersama izin Menteri", pasal: ["P39-76"], tingkat: "normal" },
+            { waktu: "Saat izin terbit", judul: "Terakreditasi pertama", ket: "Diberikan bersama izin Menteri", pasal: ["P10-76"], tingkat: "normal" },
             { waktu: "Maks. 2 tahun", judul: "Wajib ajukan akreditasi", ket: "Dihitung sejak menerima mahasiswa baru pertama", pasal: ["P10-77-1"], tingkat: "normal" },
             { waktu: "Berlaku 5 tahun", judul: "Terakreditasi", ket: "Lalu wajib diakreditasi ulang", pasal: ["P39-77-3", "UU12-33-6"], tingkat: "aksen" },
             { waktu: "Bila gagal", judul: "Satu kali ajukan ulang", ket: "Paling lambat 6 bulan", pasal: ["P10-77-ulang"], tingkat: "sedang" },
-            { waktu: "Tetap gagal", judul: "Izin dicabut Menteri", ket: "Status tidak terakreditasi", pasal: ["P39-77-6", "P39-77-7"], tingkat: "cabut" }
+            { waktu: "Tetap gagal", judul: "Izin dicabut Menteri", ket: "Status tidak terakreditasi", pasal: ["P10-77-5", "P10-77-6"], tingkat: "cabut" }
           ]
         },
         { tipe: "kartu",
