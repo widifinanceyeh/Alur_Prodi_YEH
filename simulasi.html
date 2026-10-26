@@ -395,6 +395,11 @@ function tglTeks(d){ return d?d.getDate()+" "+BLN[d.getMonth()]+" "+d.getFullYea
 function akibatButir(x){ var a=String(x["akibat bila gagal"]||"").trim(); if(a) return a;
   if(!/^ya$/i.test(x["syarat perlu? (ya/tidak)"]||"")) return "Nilai berkurang";
   return /^terakreditasi$/i.test(String(x["target akreditasi"]||"").trim())?"Tidak terakreditasi":"Peringkat tidak tercapai"; }
+function batasTeks(P,t){ var x=prodiRow(P), d=x?tglSheet(x["batas ajukan akreditasi"]):null;
+  return d?esc(tglTeks(d)):esc((t&&t.batas)||"\u2013"); }
+function aptTeks(){ var p=ambangTeks("APT_PERINGKAT",""), k=ambangTeks("APT_SK",""), b=ambangTeks("APT_BERLAKU","");
+  if(!p&&!k&&!b) return "";
+  return '<div class="tbl-ket" style="margin:0 0 8px"><b>Akreditasi institusi (APT) Universitas Eka Harap: '+esc(p||"\u2013")+'</b>'+(k?' \u00b7 SK '+esc(k):'')+(b?' \u00b7 berlaku '+esc(b):'')+'</div>'; }
 function akrTeks(P,t){ var x=prodiRow(P);
   if(!x||!String(x.status||"").trim()) return esc((t&&t.akreditasi)||"–")+'<small>'+(x?"[VERIFIKASI] belum diisi di tab Prodi":"")+'</small>';
   var d=tglSheet(x["berlaku sampai"]);
@@ -450,10 +455,10 @@ function tampil(st){
     '</select></div></div><nav class="disi">'+SEK.map(function(k){return '<a href="#'+k[0]+'">'+esc(k[1])+'</a>';}).join("")+'</nav></div>';
 
   var TK=nTk();
-  h+='<section class="sek" id="s-kondisi"><h2>Kondisi kedua prodi</h2><div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th>'+TK.map(function(k){return '<th>Mhs Tk '+["I","II","III","IV","V","VI","VII"][k-1]+'<br><small>'+(taKini()-k+1)+'</small></th>';}).join("")+'<th>Total</th><th>Dosen tetap<br><small>min. '+MIN+'</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
+  h+='<section class="sek" id="s-kondisi"><h2>Kondisi kedua prodi</h2>'+aptTeks()+'<div class="tbl-w"><table class="tbl"><thead><tr><th>Program studi</th>'+TK.map(function(k){return '<th>Mhs Tk '+["I","II","III","IV","V","VI","VII"][k-1]+'<br><small>'+(taKini()-k+1)+'</small></th>';}).join("")+'<th>Total</th><th>Dosen tetap<br><small>min. '+MIN+'</small></th><th>Akreditasi</th><th>Wajib ajukan akreditasi</th><th>Paling cepat ditutup</th></tr></thead><tbody>'+
     D.prodi.map(function(x){var t=x.tabel||{},c=tercepat(x),r=hitung(x);
       return '<tr data-prodi="'+x.id+'" class="'+(x.id===P.id?'pilih':'')+'"><td><b>'+esc(x.nama)+'</b></td>'+TK.map(function(k){return '<td class="a">'+(r?(r.tk[k]||"–"):esc(k===1?t.tk1:k===2?t.tk2:"–"))+'</td>';}).join("")+
-        '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<MIN?'kurang '+(MIN-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+akrTeks(x,t)+'</td><td class="a">'+esc(t.batas)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
+        '<td class="a"><b>'+(r?r.total:esc(t.total))+'</b></td><td class="a"><b>'+(r?r.dosen+(r.ganti?'*':''):esc(t.dosen))+'</b><small>'+(r?(r.dosen<MIN?'kurang '+(MIN-r.dosen):(r.ganti?r.ganti+' dalam penggantian':'memenuhi minimum')):esc(t.dosenKet))+'</small></td><td>'+akrTeks(x,t)+'</td><td class="a">'+batasTeks(x,t)+'</td><td class="a merah">'+esc(c.tutupTeks)+'<small>'+esc(c.judul)+'</small></td></tr>';}).join("")+
     '</tbody></table></div><div class="tbl-ket">'+(D.catatanUmum?esc((ROSTER&&(ROSTER.instrumen||[]).length)?D.catatanUmum.replace(/\s*\(instrumen[^)]*\)\)?/,''):D.catatanUmum)+' ':'')+'* Ada dosen tercatat yang dalam penggantian. Klik baris untuk memilih prodi.</div>';
   h+=daftar(P)+'</section>';
 
@@ -495,6 +500,9 @@ function proyeksi(P,st){
   var th=Object.keys(ang).map(Number).sort(); if(!th.length) return null;
   var awal=th[0], kini=taKini(), batasTh=awal+2, T=ambang("TARGET_MHS_BARU",10);
   var rw=prodiRow(P), tglU=rw?tglSheet(rw["berlaku sampai"]):null;
+  var tglB=rw?tglSheet(rw["batas ajukan akreditasi"]):null;
+  if(tglB) batasTh=(tglB.getMonth()>=7?tglB.getFullYear():tglB.getFullYear()-1);
+  var sudahAkr=!!(rw&&String(rw.status||"").trim());
   var thU=tglU?(tglU.getMonth()>=7?tglU.getFullYear():tglU.getFullYear()-1):batasTh;
   var akhir=Math.max(batasTh,kini,thU);
   var terakhir=ang[Math.min(kini,th[th.length-1])]||0, baris=[];
@@ -511,7 +519,7 @@ function proyeksi(P,st){
   var w=baris.filter(function(b){return b.th>=batasTh-2&&b.th<=batasTh;}), turun=null;
   if(w.length>=2&&w[0].baru>0) turun=Math.max(0,Math.round((w[0].baru-w[w.length-1].baru)/w[0].baru*100));
   else if(w.length>=2) turun=(w[w.length-1].baru>0?0:100);
-  return {baris:baris,awal:awal,batasTh:batasTh,turun:turun,T:T,kini:kini,thU:thU,tglU:tglU};
+  return {baris:baris,awal:awal,batasTh:batasTh,turun:turun,T:T,kini:kini,thU:thU,tglU:tglU,tglB:tglB,sudahAkr:sudahAkr};
 }
 function stLabel(w){ return {merah:"Tidak memenuhi",kuning:"Perlu perhatian",hijau:"Memenuhi",abu:"Perlu bukti dokumen"}[w]; }
 function peta(P,st){
@@ -527,7 +535,7 @@ function peta(P,st){
     ((pola==="kosong"||pola==="stop")?'<label>'+(pola==="stop"?"Mulai tahun":"Tahun kosong")+' <select id="pKosong">'+opsiKosong.map(function(y){return '<option'+(+kos===y?" selected":"")+'>'+y+'</option>';}).join("")+'</select></label>':'')+'</div>';
   h+='<div class="proy">'+pr.baris.map(function(b){ return '<div class="py w-'+warnaMhs(b.baru,T,K)+(b.nilai?' nilai':'')+'"><span class="py-t">'+b.th+(b.nyata?'':' <i>proyeksi</i>')+'</span><span class="py-n">'+b.baru+'</span><small>mhs baru · aktif '+b.aktif+'</small>'+(b.nilai?'<em>Batas ajukan akreditasi</em>':'')+(b.ulang?'<em>Akreditasi ulang</em>':'')+'</div>'; }).join("")+'</div>';
   var bn=pr.baris.filter(function(b){return b.th===pr.batasTh;})[0]||pr.baris[pr.baris.length-1];
-  var r=hitung(P), batasTgl=new Date(pr.batasTh,8,1), sisa=Math.round((batasTgl-new Date())/(30.44*864e5));
+  var r=hitung(P), batasTgl=pr.tglB||new Date(pr.batasTh,8,1), sisa=Math.round((batasTgl-new Date())/(30.44*864e5));
   var INS=(ROSTER.instrumen||[]).filter(function(x){return x.lembaga===L&&/^terakreditasi$/i.test(x["target akreditasi"]||"");});
   var cari=function(kode){ return INS.filter(function(x){return x["kode butir"]===kode;})[0]; };
   var isSp=function(x){ return x&&/^ya$/i.test(x["syarat perlu? (ya/tidak)"]||""); };
@@ -540,7 +548,7 @@ function peta(P,st){
     rows.push({k:"Mahasiswa baru turun "+(pr.turun===null?"–":pr.turun+"%"),kk:"dalam 3 tahun sampai "+pr.batasTh+" (perkiraan)",
       b:"Butir 15"+(isSp(b15)?" · syarat perlu":""),bk:(b15&&b15["angka ambang"])||"RPPM ≤ 20%",w:w15,
       a:w15==="merah"?"Tidak terakreditasi, ajukan ulang ≤ 6 bulan, tetap gagal: izin dicabut":"",ap:w15==="merah"?GAGAL:"",
-      cat:"Tidak dihitung bila diajukan sebelum prodi genap 2 tahun beroperasi (sebelum Sep "+pr.batasTh+")"});
+      cat:(!pr.sudahAkr&&pr.awal+2>pr.kini)?"Tidak dihitung bila diajukan sebelum prodi genap 2 tahun beroperasi (sebelum Sep "+(pr.awal+2)+")":""});
   } else {
     var k2=cari("IST/K4/KUR/2"); dipakai["IST/K4/KUR/2"]=1;
     var wm=bn.aktif===0?"merah":(warnaMhs(bn.baru,T,K)==="hijau"?"hijau":"kuning");
@@ -556,7 +564,7 @@ function peta(P,st){
     a:wd==="merah"?"Tidak terakreditasi":(wd==="kuning"?"Bila pengganti belum benar-benar mengajar saat visitasi, berisiko dinilai tidak memenuhi":""),ap:wd==="merah"?GAGAL:""});
   // 3. waktu
   var ww=sisa<=ambang("MERAH_BULAN_AKREDITASI",6)?"merah":(sisa<=ambang("KUNING_BULAN_AKREDITASI",12)?"kuning":"hijau");
-  rows.push({k:sisa>0?"Sisa "+sisa+" bulan":"Batas sudah lewat",kk:"ke batas Sep "+pr.batasTh,b:"Wajib ajukan akreditasi",bk:"2 tahun sejak mahasiswa baru pertama",bp:rujuk("Ps 77 (1) Permen 10/2026"),w:ww,
+  rows.push({k:sisa>0?"Sisa "+sisa+" bulan":"Batas sudah lewat",kk:"ke batas "+(pr.tglB?tglTeks(pr.tglB):"Sep "+pr.batasTh),b:"Wajib ajukan akreditasi",bk:"Paling lambat 2 tahun sejak mahasiswa baru pertama, atau sebelum masa berlaku akreditasi habis",bp:rujuk("Ps 77 (1) Permen 10/2026"),w:ww,
     a:ww==="hijau"?"":"Bila terlambat: sanksi berat (tafsiran), lalu izin dapat dicabut",ap:ww==="hijau"?"":rujuk("Ps 71 huruf c Permen 7/2020")});
   // 4. syarat perlu lain
   var lain=INS.filter(function(x){return isSp(x)&&!dipakai[x["kode butir"]]&&!/\/SYARAT\//.test(x["kode butir"]||"");});
