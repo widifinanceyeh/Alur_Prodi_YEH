@@ -6,9 +6,6 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Simulasi Prodi — Yayasan Eka Harap</title>
 <link rel="icon" href="logo-yeh.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#002855; --navy-2:#0B3A72; --navy-soft:#EAF0F7; --navy-line:#C9D6E6;
@@ -271,8 +268,12 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 @media (max-width:700px){.pola{flex-direction:column;align-items:stretch}.pola label{width:100%}.pola select{width:100%}}
 @media print{.bar{display:none}}
 </style>
+<meta name="application-version" content="1.3.0">
+<link rel="stylesheet" href="tampilan.css?v=1.3.0">
+<link rel="preload" href="data-uneka.js" as="script">
+<link rel="preload" href="isi-regulasi.js" as="script">
 </head>
-<body>
+<body class="hal-simulasi">
 
 <div id="layarMasuk" class="masuk">
   <form id="fMasuk" autocomplete="off">
@@ -291,7 +292,7 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
   <header class="atas">
     <img src="logo-yeh.png" alt="">
     <div class="judul" id="judulApp">Simulasi<small>Yayasan Eka Harap</small></div>
-    <div class="navbtn">
+    <button class="segar-data" id="segarData" type="button">Perbarui data</button><div class="navbtn">
       <button id="mundur" title="Kembali" aria-label="Kembali"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       <button id="maju" title="Maju" aria-label="Maju"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
@@ -304,6 +305,7 @@ h2:before{content:"";width:5px;height:18px;border-radius:3px;background:var(--pi
 <div class="tirai" id="tirai"></div>
 <aside class="laci" id="laci" aria-hidden="true"><div class="laci-k"><div><b id="laciJ"></b><small id="laciS"></small></div><button id="laciT" aria-label="Tutup">×</button></div><div class="laci-i" id="laciI"></div></aside>
 <script src="api-url.js"></script>
+<script src="data-client.js?v=1.3.0"></script>
 <script src="isi-regulasi.js"></script>
 <script src="data-uneka.js"></script>
 <script>
@@ -352,14 +354,20 @@ document.addEventListener("keydown",function(e){
 $("tirai").addEventListener("click",tutupPs); $("laciT").addEventListener("click",tutupPs);
 function ukurAtas(){ var a=document.querySelector(".atas"); if(a&&a.offsetHeight) document.documentElement.style.setProperty("--tinggi-atas",a.offsetHeight+"px"); }
 window.addEventListener("resize",ukurAtas);
-function muatDaftar(){
-  if(!API_URL) return; var a; try{a=JSON.parse(ss(KUNCI)||"null");}catch(e){} if(!a) return;
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nama:a[0],sandi:a[1]})})
-  .then(function(r){return r.json();}).then(function(j){
-    if(j&&j.ok&&j.data){ ROSTER=j.data; } else { PESAN_SHEET="Gagal membaca Sheet: "+((j&&j.message)||"tanpa keterangan"); }
-    if(D&&posisi>=0) tampil(riwayat[posisi]);
-  }).catch(function(){ PESAN_SHEET="Sheet tidak dapat dihubungi. Angka di tabel memakai data terakhir yang tersimpan."; if(D&&posisi>=0) tampil(riwayat[posisi]); });
+function segarkanTampilan(){
+ var y=window.scrollY, terbuka=[].map.call(document.querySelectorAll("details"),function(d){return d.open;});
+ tampil(Object.assign({},riwayat[posisi],{tetap:true}));
+ [].forEach.call(document.querySelectorAll("details"),function(d,i){d.open=!!terbuka[i];});window.scrollTo(0,y);
 }
+function muatDaftar(segar){
+  if(!API_URL) return Promise.resolve(); var a; try{a=JSON.parse(ss(KUNCI)||"null");}catch(e){} if(!a) return Promise.resolve();
+  return YEHData.load(API_URL,a,!!segar)
+  .then(function(j){
+    if(j&&j.ok&&j.data){ ROSTER=j.data; PESAN_SHEET=""; } else { PESAN_SHEET="Gagal membaca Sheet: "+((j&&j.message)||"tanpa keterangan"); }
+    if(D&&posisi>=0) segarkanTampilan();
+  }).catch(function(){ PESAN_SHEET="Sheet tidak dapat dihubungi. Angka di tabel memakai data terakhir yang tersimpan."; if(D&&posisi>=0) segarkanTampilan(); });
+}
+$("segarData").onclick=function(){var b=this;b.disabled=true;b.textContent="Memuat…";muatDaftar(true).finally(function(){b.disabled=false;b.textContent="Perbarui data";});};
 function taKini(){ var d=new Date(); return d.getMonth()>=7?d.getFullYear():d.getFullYear()-1; }
 function aktif(x){ return String(x.status||"").toLowerCase()==="aktif"; }
 function milik(x,P){ return String(x.prodi||"").toLowerCase()===P.id; }

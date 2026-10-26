@@ -1,0 +1,36 @@
+/* YEH — tampilan v1.3.0 */
+:root{--font:system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#f4f6fa;--line:#dfe5ed;--radius:16px;--ringan-bg:#fff8e8;--ringan-bd:#e8cb83;--ringan-ink:#73520b;--sedang-bg:#fff1dd;--sedang-bd:#dfb16c;--sedang-ink:#794508;--berat-bg:#fff0f1;--berat-bd:#d89aa5;--berat-ink:#8b2439}
+body{line-height:1.6}button,input,select{font-family:var(--font)}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #c17a1f;outline-offset:3px}
+.hal-alur .sidebar{padding:22px 14px;overflow-y:auto;scrollbar-width:thin}
+.hal-alur .nav{gap:4px}.hal-alur .nav button{border-radius:10px;padding:10px 12px;font-size:13px;gap:10px;white-space:normal}
+.hal-alur .nav button[data-urutan]:before{content:attr(data-urutan);font-size:11px;font-weight:700;color:#adc1db;width:18px;text-align:center;flex:none}
+.hal-alur .nav button[data-urutan]>.ic{display:none}.hal-alur .nav button.aktif:before{color:var(--navy)}
+.hal-alur .app.ciut .nav button[data-urutan]>.ic{display:block}.hal-alur .app.ciut .nav button:before{display:none}
+.hal-alur .isi{padding:30px 32px 48px;max-width:1320px}.kepala{padding-bottom:18px;border-bottom:1px solid var(--line)}
+.hal-alur .kepala h1{font-size:clamp(24px,2.3vw,32px);letter-spacing:-.7px}.kepala p{max-width:78ch}
+.hal-alur .blok{margin-top:28px}.hal-alur .blok>h2{font-size:18px;margin-bottom:14px}
+.arah-baca{font-size:13px;color:var(--muted);margin:0 0 14px}
+.hal-alur .peta-baris{gap:24px}.hal-alur .p-step{padding:20px 16px;border:1px solid var(--navy-line);border-top:4px solid var(--navy);box-shadow:0 4px 12px #00285505}
+.hal-alur .p-step .no{width:36px;height:36px;background:var(--navy-soft);color:var(--navy);border:1px solid var(--navy-line)}
+.hal-alur .p-step:last-child{border-top-color:#238162}.hal-alur .p-step:last-child .no{background:#e7f4ee;color:#176148;border-color:#b7dccb}
+.hal-alur .p-step h3{font-size:17px;margin-top:14px}.hal-alur .p-step p{font-size:14px;color:#46566c}
+.hal-alur .p-step:not(:last-child):after{right:-18px;width:10px;height:10px;top:30px}
+.ulang{padding:12px 16px;background:var(--navy-soft);border-radius:10px}.ulang .ic{animation:none}
+.hal-alur .cabang{margin-top:26px;padding-top:22px}.hal-alur .cabang-judul{text-align:left;font-size:16px;color:var(--navy);margin-bottom:14px}
+.hal-alur .keluar{padding:20px;box-shadow:none}.hal-alur .keluar>div{min-width:0}
+.dasar-ringkas{margin-top:14px;font-size:12px}.dasar-ringkas>summary{cursor:pointer;font-weight:600;min-height:30px;padding:3px 0;opacity:.85}.dasar-ringkas>summary span{font-size:11px;border:1px solid currentColor;border-radius:12px;padding:0 5px;margin-left:5px}
+.dasar-ringkas .chips{margin-top:6px}.chip{max-width:100%;white-space:normal;flex-wrap:wrap;text-align:left}
+.baca-lanjut{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center;margin-top:36px;padding-top:22px;border-top:1px solid var(--line)}
+.baca-lanjut button{background:white;border:1px solid var(--navy-line);border-radius:12px;padding:14px 18px;text-align:left;min-height:76px;display:flex;flex-direction:column;justify-content:center}.baca-lanjut button:last-child{text-align:right;align-items:flex-end;background:var(--navy);color:white}.baca-lanjut small{font-size:12px;opacity:.75}.baca-lanjut b{font-size:14px}.posisi-baca{font-size:12px;color:var(--muted)}
+.coba-lagi{font-weight:700;text-decoration:underline;padding:0 8px}.segar-data{border:1px solid #ffffff70;border-radius:8px;padding:7px 11px;color:white;font-size:12px;margin-left:auto;white-space:nowrap}.segar-data:disabled{opacity:.6}
+.hal-simulasi .disi{counter-reset:bagian}.hal-simulasi .disi a:before{counter-increment:bagian;content:counter(bagian) ". ";opacity:.65}.hal-simulasi .sek{margin-top:28px}.hal-simulasi .bar{border-bottom:1px solid var(--line)}
+.hal-alur .p-step:hover,.hal-alur .keluar:hover{transform:none}
+.blok,.p-step,.ck-baris>div,.pyb-k,.ins-kendali,.sek,.bar{min-width:0}p,h1,h2,h3,td{overflow-wrap:anywhere}
+@media(max-width:1100px){.hal-alur .peta-baris{grid-template-columns:minmax(0,1fr);gap:22px}.hal-alur .p-step{position:relative;padding:18px 20px 18px 72px}.hal-alur .p-step .no{position:absolute;left:18px;top:18px}.hal-alur .p-step h3{margin:0 0 4px}.hal-alur .p-step:not(:last-child):after{display:block;left:31px;right:auto;top:auto;bottom:-16px;transform:rotate(135deg)}.hal-alur .p-step .dasar-ringkas{margin-top:8px}}
+@media(max-width:900px){.hal-alur .isi{padding:22px 20px 36px}.hal-alur .sidebar{padding-bottom:24px}.hal-alur .app.ciut{grid-template-columns:minmax(0,1fr)}.hal-alur .app.ciut .brand-teks,.hal-alur .app.ciut .nav span,.hal-alur .app.ciut .side-kaki{display:block}.hal-alur .app.ciut .brand{flex-direction:row}.hal-alur .app.ciut .nav button{justify-content:flex-start;padding:10px 12px}.hal-alur .app.ciut .nav button:before{display:block}.hal-alur .app.ciut .nav button[data-urutan]>.ic{display:none}}
+@media(max-width:600px){.hal-alur .isi{padding:20px 16px 30px}.hal-alur .atas{padding:8px 16px}.hal-alur .jejak{font-size:12px}.hal-alur .cabang-isi{grid-template-columns:minmax(0,1fr)}.baca-lanjut{gap:8px;grid-template-columns:1fr 1fr}.baca-lanjut .posisi-baca{grid-column:1/-1;grid-row:1;text-align:center}.baca-lanjut button{padding:12px;min-height:90px}.hal-simulasi .atas{flex-wrap:wrap;gap:8px}.hal-simulasi .atas .judul{flex:1;min-width:150px}.hal-simulasi .disi{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.hal-simulasi .disi a{flex:none}.hal-simulasi .bar{position:static}.hal-simulasi .sek{scroll-margin-top:calc(var(--tinggi-atas,100px) + 16px)}.segar-data{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.baca-lanjut,.segar-data{display:none}.dasar-ringkas>.chips{display:flex}}
+
+.hal-alur .side-kaki{white-space:normal}.baca-lanjut>a{padding:14px;border:1px solid var(--navy-line);border-radius:12px;text-align:right;font-weight:600}.hal-alur .nav span{overflow:visible;text-overflow:clip}

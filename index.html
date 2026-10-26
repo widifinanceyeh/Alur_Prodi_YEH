@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alur Program Studi — Yayasan Eka Harap</title>
 <link rel="icon" href="logo-yeh.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#002855; --navy-2:#0B3A72; --navy-soft:#EAF0F7; --navy-line:#C9D6E6;
@@ -374,8 +371,12 @@ a{color:var(--navy)}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<meta name="application-version" content="1.3.0">
+<link rel="stylesheet" href="tampilan.css?v=1.3.0">
+<link rel="preload" href="data-uneka.js" as="script">
+<link rel="preload" href="isi-regulasi.js" as="script">
 </head>
-<body>
+<body class="hal-alur">
 <div id="gerbang" style="position:fixed;inset:0;z-index:999;background:#002855;display:grid;place-items:center;padding:16px">
   <form id="gForm" autocomplete="off" style="width:100%;max-width:360px;background:#fff;border-radius:18px;padding:28px 24px;box-shadow:0 20px 50px rgba(0,0,0,.25)">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><img src="logo-yeh.png" alt="" style="width:46px;height:46px"><div><b style="display:block;color:#002855">Yayasan Eka Harap</b><span style="font-size:13px;color:#5D6879">Alur Program Studi</span></div></div>
@@ -389,6 +390,7 @@ a{color:var(--navy)}
 </div>
 <script src="data-uneka.js"></script>
 <script src="api-url.js"></script>
+<script src="data-client.js?v=1.3.0"></script>
 <script>
 (function(){
   var K="simYEH.v1", g=document.getElementById("gerbang");
@@ -480,18 +482,18 @@ function tk(t){ return "t-"+(t||"normal"); }
 function pendek(label){ return String(label).replace(/^Perubahan /,"Ubah ").replace(/Pasal /g,"Ps ").replace(/ ayat /g," "); }
 function chips(daftar){
   if(!daftar||!daftar.length) return "";
-  return '<div class="chips">'+daftar.map(function(k){
+  return '<details class="dasar-ringkas"><summary>Dasar ketentuan <span>'+daftar.length+'</span></summary><div class="chips">'+daftar.map(function(k){
     var p=ISI.pasal[k];
     if(!p) return '<span class="chip hilang">'+esc(k)+' belum ada</span>';
     var r=ISI.regulasi[p.reg]||{};
     return '<button class="chip '+esc(p.status)+'" data-pasal="'+esc(k)+'">'+ic("pasal")+'<span>'+esc(pendek(p.label))+'</span><em>'+esc(r.singkat||p.reg)+'</em></button>';
-  }).join("")+'</div>';
+  }).join("")+'</div></details>';
 }
 
 /* ---- penyaji blok ---- */
 var R = {};
 R.peta = function(b){
-  var h='<div class="peta-baris" style="--n:'+b.langkah.length+'">';
+  var h='<p class="arah-baca">Ikuti langkah 1–4, lalu baca jalur penutupan di bawahnya.</p><div class="peta-baris" style="--n:'+b.langkah.length+'">';
   b.langkah.forEach(function(s,i){
     h+='<div class="p-step"><div class="no">'+(i+1)+'</div><h3>'+esc(s.judul)+'</h3><p>'+esc(s.ket)+'</p>'+chips(s.pasal)+'</div>';
   });
@@ -591,22 +593,23 @@ R.penyebab = function(b){
   return h;
 };
 R.instrumen = function(b,id){ setTimeout(function(){ muatIns(id); },0); return '<div id="ins-'+id+'"><div class="info">Memuat instrumen dari Sheet…</div></div>'; };
-var INS=null;
-function muatIns(id){
+var INS=null, insResize=null;
+function muatIns(id,segar){
   var el=document.getElementById("ins-"+id); if(!el) return;
-  if(INS){ gambarIns(el,id); return; }
+  if(INS&&!segar){ gambarIns(el,id); return; }
   var a=null; try{a=JSON.parse(sessionStorage.getItem("simYEH.v1")||"null");}catch(e){}
   if(!window.API_URL_YEH||!a){ el.innerHTML='<div class="info">Instrumen dibaca dari Sheet. Alamat Sheet belum diisi di api-url.js, atau sesi login belum ada.</div>'; return; }
-  fetch(window.API_URL_YEH,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nama:a[0],sandi:a[1]})})
-  .then(function(r){return r.json();}).then(function(j){ if(j&&j.ok&&j.data){ INS=j.data.instrumen||[]; gambarIns(el,id); } else el.innerHTML='<div class="info">Gagal membaca Sheet: '+esc((j&&j.message)||"")+'</div>'; })
-  .catch(function(){ el.innerHTML='<div class="info">Sheet tidak dapat dihubungi.</div>'; });
+  YEHData.load(window.API_URL_YEH,a,!!segar)
+  .then(function(j){ if(j&&j.ok&&j.data){ INS=j.data.instrumen||[]; gambarIns(el,id); } else el.innerHTML='<div class="info">Gagal membaca Sheet: '+esc((j&&j.message)||"")+'</div>'; })
+  .catch(function(){ el.innerHTML='<div class="info">Sheet tidak dapat dihubungi. <button class="coba-lagi">Coba lagi</button></div>'; el.querySelector(".coba-lagi").onclick=function(){el.textContent="Memuat instrumen…";muatIns(id);}; });
 }
 function gambarIns(el,id){
   var st={l:"BAN-PT",t:"Terakreditasi",q:"",f:""};
   el.innerHTML='<div class="ins-kendali"><div class="ins-b1"><input type="search" placeholder="Cari butir…" data-ins="q" aria-label="Cari butir">'+
     '<select data-ins="l" aria-label="Lembaga"><option value="BAN-PT">BAN-PT (BKI)</option><option value="LAMEMBA">LAMEMBA (KWU)</option></select>'+
-    '<select data-ins="t" aria-label="Target"><option>Terakreditasi</option><option>Unggul</option><option>Semua</option></select><span class="ins-jml"></span></div><div class="ins-b2"></div></div>'+
+    '<select data-ins="t" aria-label="Target"><option>Terakreditasi</option><option>Unggul</option><option>Semua</option></select><span class="ins-jml"></span><button class="coba-lagi" data-ins="refresh">Perbarui data</button></div><div class="ins-b2"></div></div>'+
     '<div class="ins-w"><table class="ins"><thead><tr><th>Kode</th><th>Isi singkat</th><th>Syarat perlu</th><th>Data terkait</th><th>Catatan</th><th>Sumber</th></tr></thead><tbody></tbody></table></div>';
+  el.querySelector('[data-ins="refresh"]').onclick=function(){this.disabled=true;this.textContent="Memuat…";muatIns(id,true);};
   var kend=el.querySelector(".ins-kendali");
   function ukur(){ document.documentElement.style.setProperty("--ins-kend",kend.offsetHeight+"px"); }
   function sp(x){ return /^ya$/i.test(x["syarat perlu? (ya/tidak)"]||""); }
@@ -635,7 +638,7 @@ function gambarIns(el,id){
   el.querySelector('[data-ins="l"]').addEventListener("change",function(){ st.l=this.value; st.f=""; isi(); });
   el.querySelector('[data-ins="t"]').addEventListener("change",function(){ st.t=this.value; st.f=""; isi(); });
   el.querySelector(".ins-b2").addEventListener("click",function(e){ var b=e.target.closest("[data-f]"); if(!b) return; var f=b.getAttribute("data-f"); st.f=(st.f===f?"":f); isi(); });
-  window.addEventListener("resize",ukur);
+  if(insResize) window.removeEventListener("resize",insResize); insResize=ukur; window.addEventListener("resize",insResize);
   isi();
 }
 R.garis = function(b){
@@ -666,17 +669,18 @@ function tampil(id){
   });
   var ix=ISI.halaman.indexOf(hal), sb=ISI.halaman[ix-1], sd=ISI.halaman[ix+1];
   aturNav("mundur",sb,"Sebelumnya"); aturNav("maju",sd,"Berikutnya");
+  h+='<nav class="baca-lanjut" aria-label="Urutan bacaan">'+(sb?'<button data-ke="'+esc(sb.id)+'"><small>Sebelumnya</small><b>'+esc(sb.menu||sb.judul)+'</b></button>':'<span></span>')+'<span class="posisi-baca">'+(ix+1)+' dari '+ISI.halaman.length+'</span>'+(sd?'<button data-ke="'+esc(sd.id)+'"><small>Berikutnya →</small><b>'+esc(sd.menu||sd.judul)+'</b></button>':'<a href="simulasi.html">Lanjut ke Simulasi UNEKA →</a>')+'</nav>';
   document.getElementById("isi").innerHTML=h;
   document.getElementById("halNo").textContent=(ix+1)+" / "+ISI.halaman.length;
   document.getElementById("jejak").innerHTML=esc(ISI.meta.judul||"")+' &nbsp;/&nbsp; <b>'+esc(hal.judul)+'</b>';
-  [].forEach.call(document.querySelectorAll(".nav button"),function(n){ n.classList.toggle("aktif",n.getAttribute("data-ke")===hal.id); });
+  [].forEach.call(document.querySelectorAll(".nav button"),function(n){ n.classList.toggle("aktif",n.getAttribute("data-ke")===hal.id); if(n.getAttribute("data-ke")===hal.id)n.setAttribute("aria-current","page");else n.removeAttribute("aria-current"); });
   document.title=hal.judul+" — "+(ISI.meta.organisasi||"");
   simpan("hal",hal.id);
   window.scrollTo(0,0);
 }
 function aturNav(idb,hal,teks){
   var b=document.getElementById(idb); b.disabled=!hal;
-  b.title=hal?teks+": "+(hal.menu||hal.judul):""; b.setAttribute("data-tuju",hal?hal.id:"");
+  b.setAttribute("aria-label",hal?teks+": "+(hal.menu||hal.judul):teks); b.title=hal?teks+": "+(hal.menu||hal.judul):""; b.setAttribute("data-tuju",hal?hal.id:"");
 }
 function ke(id){ if(location.hash!=="#"+id) location.hash=id; else tampil(id); app.classList.remove("laci-nav"); }
 
@@ -701,14 +705,14 @@ function tutupPasal(){ laci.classList.remove("buka"); tirai.classList.remove("bu
 var app=document.getElementById("app"), laci=document.getElementById("laci"), tirai=document.getElementById("tirai");
 document.getElementById("org").textContent=ISI.meta.organisasi||"";
 document.getElementById("judulApp").textContent=ISI.meta.judul||"";
-document.getElementById("pembaruan").textContent=ISI.meta.pembaruan?"Isi diperbarui "+ISI.meta.pembaruan:"";
+document.getElementById("pembaruan").textContent=ISI.meta.pembaruan?"Tampilan v1.3.0 · Isi "+ISI.meta.pembaruan:"";
 document.getElementById("toggle").innerHTML=ic("sisi");
 document.getElementById("lipat").innerHTML=ic("lipat");
 document.getElementById("mundur").innerHTML=ic("panah");
 document.getElementById("maju").innerHTML=ic("panah");
 ["mundur","maju"].forEach(function(i){ document.getElementById(i).addEventListener("click",function(){ var t=this.getAttribute("data-tuju"); if(t) ke(t); }); });
 document.getElementById("lTutup").innerHTML=ic("tutup");
-document.getElementById("nav").innerHTML=ISI.halaman.map(function(h){ return '<button data-ke="'+esc(h.id)+'" title="'+esc(h.menu||h.judul)+'">'+ic(h.ikon)+'<span>'+esc(h.menu||h.judul)+'</span></button>'; }).join("");
+document.getElementById("nav").innerHTML=ISI.halaman.map(function(h,i){ return '<button data-urutan="'+(i+1)+'" data-ke="'+esc(h.id)+'" title="'+esc(h.menu||h.judul)+'">'+ic(h.ikon)+'<span>'+esc(h.menu||h.judul)+'</span></button>'; }).join("");
 document.getElementById("nav").insertAdjacentHTML("beforeend",'<button onclick="location.href=\'simulasi.html\'" title="Simulasi UNEKA" style="margin-top:14px">'+ic("kelola")+'<span>Simulasi UNEKA</span></button>');
 if(baca("ciut")==="1" && window.innerWidth>900) app.classList.add("ciut");
 
