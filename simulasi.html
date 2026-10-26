@@ -558,7 +558,7 @@ function peta(P,st){
   }
   // 2. dosen
   var kd=L==="BAN-PT"?"6":"IST/K2/KD/1", xd=cari(kd); dipakai[kd]=1;
-  var wd=r.dosen<MIN?"merah":(r.ganti?"kuning":"hijau");
+  var wd=r.dosen<MIN?"merah":"hijau";
   rows.push({k:"Dosen tetap "+r.dosen+" dari minimum "+MIN,kk:r.ganti?r.ganti+" dalam penggantian":"",
     b:(L==="BAN-PT"?"Butir 6":kd)+(isSp(xd)?" · syarat perlu":""),bk:(xd&&xd["angka ambang"])||"",w:wd,
     a:wd==="merah"?"Tidak terakreditasi":(wd==="kuning"?"Bila pengganti belum benar-benar mengajar saat visitasi, berisiko dinilai tidak memenuhi":""),ap:wd==="merah"?GAGAL:""});
